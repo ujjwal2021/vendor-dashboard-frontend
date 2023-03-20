@@ -1,0 +1,19 @@
+.operating-city-top {
+  display: flex;
+  justify-content: space-between;
+}
+.operating-city-main {
+  margin-top: 2rem;
+}
+.absolute-select {
+  display: flex;
+  gap: 1rem;
+}
+
+.absolute-select .select-outer {
+  width: 100%;
+}
+.select-outer label {
+  padding: 1rem 0;
+  background-color: red;
+}

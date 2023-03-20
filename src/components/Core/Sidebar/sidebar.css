@@ -1,0 +1,17 @@
+.sidebar-container{
+    width: 20rem;
+    position: fixed;
+    top: 4.75rem;
+    bottom: 0;
+    height: auto;
+    box-shadow: 2px 0px 4px var(--light-100);
+    z-index: 1;
+}
+.singlemenu-container{
+    display: flex;
+    align-items: center;
+    gap: var(--space-m);
+    padding-left: var(--space-xl);
+    margin-bottom: var(--space-m);
+    cursor: pointer;
+}
