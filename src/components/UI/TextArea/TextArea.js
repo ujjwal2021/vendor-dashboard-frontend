@@ -1,7 +1,7 @@
 import React from "react";
 import "./textarea.css";
 
-const TextArea = ({ label, labelTag = "", placeholder }) => {
+const TextArea = ({ label, labelTag = "", placeholder, value, onchange }) => {
   return (
     <div className="input-with-label-container">
       <div className="input-label m-y-s font-regular dark-500">
@@ -10,7 +10,7 @@ const TextArea = ({ label, labelTag = "", placeholder }) => {
           {labelTag}
         </span>
       </div>
-      <textarea className="textarea" placeholder={placeholder}></textarea>
+      <textarea className="textarea" placeholder={placeholder} value={value} onChange={onchange}/>
     </div>
   );
 };

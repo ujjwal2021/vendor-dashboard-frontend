@@ -6,6 +6,8 @@
     height: auto;
     box-shadow: 2px 0px 4px var(--light-100);
     z-index: 1;
+    color: var(--dark-500);
+
 }
 .singlemenu-container{
     display: flex;
@@ -14,4 +16,18 @@
     padding-left: var(--space-xl);
     margin-bottom: var(--space-m);
     cursor: pointer;
+}
+.singlemenu-container .singlemenu-icon{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.sidebar-menu-active{
+    color: var(--primary-500);
+}
+.sidebar-menu-active .singlemenu-container{
+    background: var(--light-300);
+}
+.sidebar-menu-inactive{
+    background: none;
 }

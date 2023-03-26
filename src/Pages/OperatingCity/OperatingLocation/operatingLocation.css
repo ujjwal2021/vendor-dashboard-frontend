@@ -1,3 +1,6 @@
+/* .operating-location-top{
+    display: flex;
+} */
 .operating-location-main{
     display: flex;
     padding-top: var(--space-l);

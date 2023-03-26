@@ -1,6 +1,7 @@
-.operating-city-top {
+.top-title {
   display: flex;
   justify-content: space-between;
+  align-items: center;
 }
 .operating-city-main {
   margin-top: 2rem;
@@ -16,4 +17,20 @@
 .select-outer label {
   padding: 1rem 0;
   background-color: red;
+}
+.form-btn-control{
+  display: flex;
+  width: 100%;
+  gap: 1rem ;
+}
+
+.absolute-message{
+  background-color: var(--error-500);
+  color: var(--light-900);
+  padding: var(--space-m);
+  position: absolute;
+  top: -5rem;
+  width: 100%;
+  text-align: center;
+  display: none;
 }

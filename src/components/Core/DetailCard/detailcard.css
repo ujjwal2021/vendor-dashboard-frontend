@@ -2,7 +2,6 @@
     display: flex;
     /* align-items: center; */
     border-radius: 0.5rem;
-    padding: var(--space-l);
 }
 .detail-card-container .detail-card-left{
     width: 50%;

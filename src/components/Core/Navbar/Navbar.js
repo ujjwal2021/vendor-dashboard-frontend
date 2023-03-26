@@ -2,7 +2,7 @@ import React from 'react'
 import "./navbar.css"
 import { FaBars, FaBell } from "react-icons/fa"
 
-const Navbar = () => {
+const Navbar = ({name}) => {
   return (
     <div className='navbar-container p-x-xl light-bg-900'>
         <div className='navbar-left-container'>
@@ -18,7 +18,7 @@ const Navbar = () => {
                 2
               </div>
             </div>
-            <div className='dark-500 h6'>Omar Travels</div>
+            <div className='dark-500 h6'>{name}</div>
         </div>
    
     

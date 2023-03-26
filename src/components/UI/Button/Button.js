@@ -7,9 +7,10 @@ const Button = ({
   icon,
   children,
   onClick = null,
+  disabled=false
 }) => {
   return (
-    <button className={`button ${size} ${type} ${color} h6`} onClick={onClick}>
+    <button className={`button ${size} ${type} ${color} h6 ${disabled && "disabled"}`} onClick={onClick} disabled={disabled}>
       {icon} {children}
     </button>
   );

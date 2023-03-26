@@ -2,33 +2,8 @@ import React, { useState } from "react";
 import { FaChevronDown, FaChevronUp } from "react-icons/fa";
 import "./select.css";
 import SelectOption from "./SelectOption";
+import PlainInput from "../PlainInput/PlainInput"
 
-const options = [
-  {
-    option: "Option 1",
-    value: "option 1",
-  },
-  {
-    option: "Option 2",
-    value: "option 2",
-  },
-  {
-    option: "Option 3",
-    value: "option 3",
-  },
-  {
-    option: "Option 1",
-    value: "option 1",
-  },
-  {
-    option: "Option 2",
-    value: "option 2",
-  },
-  {
-    option: "Option 3",
-    value: "option 3",
-  },
-];
 
 const SelectComponent = ({
   placeholder = "Select",
@@ -36,6 +11,7 @@ const SelectComponent = ({
   selectValue,
   setSelectValue,
   labelTag = "",
+  options =[]
 }) => {
   const [isActive, setIsActive] = useState(false);
 
@@ -55,19 +31,20 @@ const SelectComponent = ({
         onClick={handleClick}
       >
         {selectValue.length < 1 ? (
-          <span className="select-placeholder grey-100">{placeholder}</span>
+          <PlainInput placeholder={placeholder}/>
         ) : (
           selectValue
         )}
-        {isActive ? <FaChevronUp /> : <FaChevronDown />}
+        {/* {isActive ? <FaChevronUp /> : <FaChevronDown />} */}
       </div>
       <div className={`option-wrapper ${isActive && "active"}`}>
         {options?.map((item, index) => {
-          const { option, value } = item;
           return (
             <SelectOption
               key={index}
-              {...{ selectValue, setSelectValue, option, value, setIsActive }}
+              option={item}
+              value={item}
+              {...{ selectValue, setSelectValue, setIsActive }}
             />
           );
         })}

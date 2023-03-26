@@ -1,16 +1,19 @@
 import React from 'react'
+import { NavLink } from 'react-router-dom';
 import "./citycategory.css"
 
-const CityCategory = () => {
+const CityCategory = ({state, cities}) => {
   return (
     <div className='city-category-container'>
         <div className='font-semibold h5 dark-500'>
-            Karnataka
+           {state}
         </div>
         <div className='city-list p-y-m'>
-            <div className='primary-500 font-semibold'>Bangalore</div>
-            <div className='primary-500 font-semibold'>Bellore</div>
-            <div className='primary-500 font-semibold'>Mysuru</div>
+          {cities?.map((item, index)=> {
+            const {id, name} = item;
+
+            return <NavLink  key={index} to={`/operatingCity/${id}/addLocation`}><div className='primary-500 font-semibold'>{name}</div></NavLink>
+          })}
         </div>
     </div>
   )

@@ -10,7 +10,7 @@
   align-items: center;
   position: relative;
   cursor: pointer;
-  border: 1px solid var(--grey-100);
+  /* border: 1px solid var(--grey-100); */
 }
 .select-container svg {
   position: absolute;

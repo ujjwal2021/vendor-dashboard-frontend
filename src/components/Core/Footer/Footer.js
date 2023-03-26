@@ -1,9 +1,9 @@
 import React from 'react'
 
-const Footer = () => {
+const Footer = ({type="with-margin"}) => {
   return (
-    <div className='footer dark-500'>
-        contact <span className='primary-500 font-semibold'>support@bims.com</span> for further support
+    <div className={`footer dark-500 ${type}`}>
+        contact <span className='primary-500 font-semibold'>&nbsp;support@bims.com </span>&nbsp;for further support
     </div>
   )
 }

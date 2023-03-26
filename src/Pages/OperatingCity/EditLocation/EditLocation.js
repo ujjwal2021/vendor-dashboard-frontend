@@ -3,32 +3,34 @@ import { FaInfoCircle } from "react-icons/fa";
 import InputWithLabel from "../../../components/UI/InputWithLabel/InputWithLabel";
 import SelectComponent from "../../../components/UI/Select/SelectComponent";
 import Title from "../../../components/UI/Title/Title";
-import "./operatingLocation.css";
 import Button from "../../../components/UI/Button/Button";
 import TextArea from "../../../components/UI/TextArea/TextArea";
-import { useAddCityLocationMutation, useDeleteSingleCityMutation, useGetAllLocationsQuery, useGetSingleCityQuery } from "../../../services/api";
-import { NavLink, useNavigate, useParams } from "react-router-dom";
-import { useGlobalContext } from "../../../context";
-
+import { useDeleteCityLocationMutation, useGetAllLocationsQuery, useGetSingleCityQuery, useGetSingleLocationQuery, useUpdateCityLocationMutation } from "../../../services/api";
+import { useNavigate, useParams } from "react-router-dom";
 
 const options = [
   "place 1", "place 2"
 ]
 
-const OperatingLocation = () => {
-  const {cityId} = useParams() 
-  const navigate = useNavigate()
-  const {frontendMessage, setFrontendMessage} = useGlobalContext()
+const EditLocation = () => {
+    const navigate = useNavigate()
+  const {cityId, locationId} = useParams() 
 
 
   const {data: allLocationFetch,  isSuccess: allLocationFetchSuccess, refetch: allLocationRefetch} = useGetAllLocationsQuery(cityId)
-  const {data: singleCityFetch, isSuccess: singleCityFetchSuccess, isError: singleCityFetchError} = useGetSingleCityQuery(cityId)
-  const [addLocation, {isError: addLocationError, isLoading: addLocationLoading, isSuccess: addLocationSuccess}] = useAddCityLocationMutation()
-  const [deleteCity, {isError: deleteCityError, isLoading: deleteCityLoading, isSuccess: deleteCitySuccess}] = useDeleteSingleCityMutation()
+  const {data: singleCityFetch, isSuccess: singleCityFetchSuccess} = useGetSingleCityQuery(cityId)
+
+  const {data: singleLocationFetch, isError: singleLocationFetchError, isSuccess: singleLocationFetchSuccess, isLoading: singleLocationFetchLoading} = useGetSingleLocationQuery({cityId, locationId})
+  
 
 
+
+
+  const [editLocation, {isError: editLocationError, isLoading: editLocationLoading, isSuccess: editLocationSuccess}] = useUpdateCityLocationMutation()
+  const [deleteLocation, {isError: deleteLocationError, isSuccess: deleteLocationSuccess, isLoading: deleteLocationLoading}] = useDeleteCityLocationMutation()
   const [city, setCity] = useState(singleCityFetch?.city)
   const [allLocation, setAllLocation] = useState(allLocationFetch?.locations)
+  const [singleLocation, setSingleLocation] = useState(singleCityFetch?.location)
 
 
   // values to add
@@ -37,20 +39,22 @@ const OperatingLocation = () => {
   const [phone, setPhone] = useState("")
   const [landmark, setLandmark] = useState("")
 
-  const handleAddLocationClick = async () => {
+  const handleEditLocationClick = async () => {
     const val = {
-      _id: cityId,
-      name: selectLocationValue,
-      address,
-      phone,
-      landmark
-    }
-    await addLocation(val)
+        cityId,
+        locationId,
+        name: selectLocationValue,
+        address,
+        phone,
+        landmark
+      }
+      await editLocation(val)
   }
 
-  const handleDeleteCityClick = async() => {
-    await deleteCity(cityId)
+  const handleDeleteLocationClick = async () => {
+    await deleteLocation({cityId, locationId})
   }
+
 
   // set all location data
   useEffect(()=> {
@@ -62,33 +66,27 @@ const OperatingLocation = () => {
   }, [singleCityFetchSuccess, singleCityFetch])
 
   useEffect(()=> {
-      if(addLocationSuccess){
-        setSelectLocationValue("")
-        setAddress("")
-        setPhone("")
-        setLandmark("")
-        allLocationRefetch()
-      }
-  }, [addLocationSuccess])
-
-  useEffect(()=> {
-    deleteCitySuccess && navigate("/operatingCity")
-  }, [deleteCitySuccess])
+    if(singleLocationFetchSuccess){
+        setSingleLocation(singleLocationFetch?.location || "")
+        setSelectLocationValue(singleLocationFetch?.location?.name || "")
+        setAddress(singleLocationFetch?.location?.address || "")
+        setPhone(singleLocationFetch?.location?.phone || "")
+        setLandmark(singleLocationFetch?.location?.landmark || "")
+    }
+  }, [singleLocationFetchSuccess, singleLocationFetch])
 
 
-  // handle error
-  useEffect(()=> {
-    addLocationError && setFrontendMessage({status: "error", msg: "error while adding location"})
-    deleteCityError && setFrontendMessage({status: "error", msg: "error while deleting city"})
-  }, [addLocationError, deleteCityError])  
+//   navigate on edit success
+useEffect(()=> {
+    (editLocationSuccess || deleteLocationSuccess) && navigate(`/operatingCity/${cityId}/addLocation`)
+}, [editLocationSuccess, deleteLocationSuccess])
+
+  
 
   return (
     <div className="operating-city-container-outer outer-cover">
-      <div className="operating-location-top top-title m-y-m">
-        <Title>{city?.name}</Title>
-        <Button onClick={handleDeleteCityClick} disabled={deleteCityLoading ? true: false}>{
-          (deleteCityLoading) ? "Loading" : "Delete City"
-        }</Button>
+      <div className="operating-location-top m-y-m">
+        <Title>{city?.name} ({selectLocationValue})</Title>
       </div>
       <div className="separator"></div>
       <div className="operating-location-main">
@@ -97,8 +95,7 @@ const OperatingLocation = () => {
           {
             allLocation?.map((item, index)=> {
               const {name, id} = item;
-              return <NavLink key={index} to={`/operatingCity/${cityId}/locations/${id}/edit`} className="primary-500"><div className="location-list-item click">{name}</div></NavLink>
-              // return <div key={index} className="location-list-item click">{name}</div>
+              return <div key={index} className="location-list-item click">{name}</div>
             })
           }
           
@@ -152,10 +149,16 @@ const OperatingLocation = () => {
               />
             </div>
             <div className="form-control form-btn-control">
-                <Button size="default" onClick={handleAddLocationClick} disabled={(addLocationLoading) ? true: false}>
-                  {
-                    (addLocationLoading ? "Loading" : "Save Location")
-                  }
+
+                  <Button size="default" type="outlined" color="error" onClick={handleDeleteLocationClick} disabled={(deleteLocationSuccess || deleteLocationLoading) ? true: false}>
+                    {
+                        deleteLocationLoading? "Loading": "Delete"
+                    }
+                  </Button>
+                <Button size="default" onClick={handleEditLocationClick} disabled={(editLocationSuccess || editLocationLoading) ? true: false}>
+                    {
+                        editLocationLoading? "Loading": "Save Location"
+                    }
                 </Button>
             </div>
           </div>
@@ -165,4 +168,4 @@ const OperatingLocation = () => {
   );
 };
 
-export default OperatingLocation;
+export default EditLocation;
