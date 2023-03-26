@@ -12,10 +12,10 @@ import "./sidebar.css";
 
 const Sidebar = ({currentVendorRefetch}) => {
   const navigate = useNavigate()
+
   const handleLogout = () => {
     localStorage.clear()
     currentVendorRefetch()
-    // navigate("/login")
   }
   return (
     <div className="sidebar-container light-bg-900 p-y-l">

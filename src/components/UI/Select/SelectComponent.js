@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { FaChevronDown, FaChevronUp } from "react-icons/fa";
 import "./select.css";
 import SelectOption from "./SelectOption";
@@ -13,13 +13,37 @@ const SelectComponent = ({
   labelTag = "",
   options =[]
 }) => {
+  const[search,setSearch] = useState("")
   const [isActive, setIsActive] = useState(false);
+  const [filteredOptions, setFilteredOptions] = useState(options)
+
+  const filterOptions = (e) => {
+    const val = e.target.value;
+    setSearch(val);
+    const tempArr = [];
+    options?.map((item) => {
+      if (item?.toLowerCase().includes(val.toLowerCase())) {
+        tempArr.push(item);
+      }
+      return;
+    });
+    setFilteredOptions(tempArr);
+  }
 
   const handleClick = () => {
-    setIsActive(!isActive);
+    setIsActive(true);
   };
+  
+  useEffect(()=> {
+    options.length > 0 && setFilteredOptions(options)
+  }, [options])
+
+  useEffect(()=> {
+    selectValue.length == 0 && setSearch("")
+  }, [selectValue])
+
   return (
-    <div className="select-container-wrapper dark-500 ">
+    <div className="select-container-wrapper dark-500">
       <div className="select-label m-y-s font-semibold dark-500">
         {label}{" "}
         <span className="font-small grey-500 font-regular p-x-xs">
@@ -27,24 +51,18 @@ const SelectComponent = ({
         </span>
       </div>
       <div
-        className="select-container light-bg-900 p-x-m"
-        onClick={handleClick}
-      >
-        {selectValue.length < 1 ? (
-          <PlainInput placeholder={placeholder}/>
-        ) : (
-          selectValue
-        )}
-        {/* {isActive ? <FaChevronUp /> : <FaChevronDown />} */}
+        className="select-container light-bg-900"
+        onClick={handleClick}>
+          <PlainInput placeholder={placeholder} value={search} onchange={filterOptions}/>
       </div>
       <div className={`option-wrapper ${isActive && "active"}`}>
-        {options?.map((item, index) => {
+        {filteredOptions?.map((item, index) => {
           return (
             <SelectOption
               key={index}
               option={item}
               value={item}
-              {...{ selectValue, setSelectValue, setIsActive }}
+              {...{ selectValue, setSelectValue, setIsActive, setSearch }}
             />
           );
         })}

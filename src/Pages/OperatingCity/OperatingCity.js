@@ -51,6 +51,8 @@ const OperatingCity = () => {
 
   const cancelClick = () => {
     setAbsoluteWrapperActive(false);
+    setSelectStateValue("")
+    setSelectCityValue("")
   };
 
   const openAbsoluteClick = () => {
@@ -59,6 +61,8 @@ const OperatingCity = () => {
   const addCityClick = async () => {    
     // api call
     await createCity({ state: selectStateValue, name: selectCityValue });
+    setSelectStateValue("")
+    setSelectCityValue("")
     setAbsoluteWrapperActive(false);
   };
 
@@ -85,11 +89,6 @@ const OperatingCity = () => {
     setSelectCityValue("");
   }, [selectStateValue]);
 
-  useEffect(() => {
-    if (createCitySuccess) {
-      createCitySuccess && refetch();
-    }
-  }, [createCitySuccess]);
 
   // handling errors
   useEffect(()=> {
