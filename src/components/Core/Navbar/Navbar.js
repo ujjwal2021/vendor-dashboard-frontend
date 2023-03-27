@@ -1,13 +1,24 @@
 import React from 'react'
 import "./navbar.css"
-import { FaBars, FaBell } from "react-icons/fa"
+import { FaBars, FaBell, FaTimes } from "react-icons/fa"
+import { useGlobalContext } from '../../../context'
 
 const Navbar = ({name}) => {
+  const {sidebarActive, setSidebarActive} = useGlobalContext()
+  const handleClick = () => {
+    setSidebarActive((prev) => !prev)
+  }
   return (
-    <div className='navbar-container p-x-xl light-bg-900'>
+    <div className='navbar-container light-bg-900'>
         <div className='navbar-left-container'>
-          <div className='navbar-icon navbar-left-icon h3 dark-500 click'>
+          <div className='navbar-icon navbar-left-icon h3 dark-500 click' onClick={handleClick}>
+            {/* icon not fit for the change */}
+            {
+              sidebarActive? 
+              <FaTimes/>:
               <FaBars/>
+
+            }
           </div> 
           <div className='h1 primary-500 font-bold'>Bims</div> 
         </div>

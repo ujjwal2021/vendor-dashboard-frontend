@@ -10,7 +10,7 @@ const Details = () => {
     <div className="details-container-outer outer-cover">
       <div className="details-container-top">
         <DetailCard />
-        <div className="amount-container container light-bg-500 p-l">
+        {/* <div className="amount-container container light-bg-500 p-l">
           <div className="grey-500 h4">Uncollected Amount</div>
           <div className="detail-amount font-large primary-500 font-bold">
             $340000
@@ -22,7 +22,7 @@ const Details = () => {
           <div className="button-container">
             <Button size="default">Request Payment</Button>
           </div>
-        </div>
+        </div> */}
       </div>
     </div>
   );

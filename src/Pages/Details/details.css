@@ -28,5 +28,8 @@
     .amount-container .detail-amount{
         font-size: var(--font-h1);
     }
+    .details-container-top .container:nth-child(1){
+        width: 100%;
+    }
     
 }

@@ -8,22 +8,28 @@ import {
   FaSignOutAlt,
 } from "react-icons/fa";
 import { NavLink, useNavigate } from "react-router-dom";
+import { useGlobalContext } from "../../../context";
 import "./sidebar.css";
 
-const Sidebar = ({currentVendorRefetch}) => {
-  const navigate = useNavigate()
+const Sidebar = () => {
+  const {verifyLogin, sidebarActive, setSidebarActive} = useGlobalContext()
+
+  const handleClick = () => {
+    setSidebarActive((prev)=> !prev)
+  }
 
   const handleLogout = () => {
     localStorage.clear()
-    currentVendorRefetch()
+    verifyLogin()
   }
   return (
-    <div className="sidebar-container light-bg-900 p-y-l">
+    <div className={`sidebar-container ${sidebarActive && 'active'} light-bg-900 p-y-l`}>
       <NavLink
         to="/details"
         className={({ isActive = true }) =>
           isActive ? "sidebar-menu-active" : "sidebar-menu-inactive"
         }
+      onClick={handleClick}
       >
         <div className="singlemenu-container p-y-m h5 ">
           <div className="singlemenu-icon">
@@ -37,6 +43,7 @@ const Sidebar = ({currentVendorRefetch}) => {
         className={({ isActive = true }) =>
           isActive ? "sidebar-menu-active" : "sidebar-menu-inactive"
         }
+      onClick={handleClick}
       >
         <div className="singlemenu-container p-y-m h5">
           <div className="singlemenu-icon">

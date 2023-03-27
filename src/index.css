@@ -335,7 +335,9 @@ a{
 }
 
 
-
+.center-text{
+  text-align: center;
+}
 /* click */
 .click{
   cursor: pointer;
@@ -455,7 +457,7 @@ a{
 /* absolute container */
 .absolute-wrapper{
   display: none;
-  position: absolute;
+  position: fixed;
   background-color: rgba(0, 0, 0, 0.25);
   top: 0 !important;
   bottom: 0;
@@ -543,6 +545,12 @@ a{
   top: 1rem;
 }
 
+.loader-container{
+  position: absolute;
+  top: 50%;
+  left: 40%;
+  transform: translate(-50%, -50%);
+}
 
 @media screen and (max-width: 1000px) {
   .absolute-wrapper.active .absolute-container{
@@ -552,5 +560,8 @@ a{
 @media screen and (max-width: 750px) {
   .absolute-wrapper.active .absolute-container{
     width: 80%;
+  }
+  .outer-cover{
+    margin-left:0;
   }
 }

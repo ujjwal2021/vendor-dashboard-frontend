@@ -6,7 +6,10 @@ export const loginApi = createApi({
   baseQuery: fetchBaseQuery({
     baseUrl: serverUrl + "/vendor",
     prepareHeaders: (headers) => {
-      headers.set("authorization", `Bearer ${localStorage.getItem("token") || ""}`);
+      headers.set(
+        "authorization",
+        `Bearer ${localStorage.getItem("token") || ""}`
+      );
     },
   }),
   tagTypes: ["Login"],
@@ -19,30 +22,32 @@ export const loginApi = createApi({
       }),
     }),
     refreshToken: builder.mutation({
-      query: (data)=> ({
+      query: (data) => ({
         url: "/auth/refresh",
         method: "POST",
-        body: data
-      })
-    })
+        body: data,
+      }),
+    }),
   }),
 });
 
 export const vendorDetailApi = createApi({
   reducerPath: "vendorDetailApi",
   baseQuery: fetchBaseQuery({
-    baseUrl: serverUrl+"/vendor/me",
+    baseUrl: serverUrl + "/vendor/me",
     prepareHeaders: (headers) => {
-      headers.set("authorization", `Bearer ${localStorage.getItem("token") || ""}`);
+      headers.set(
+        "authorization",
+        `Bearer ${localStorage.getItem("token") || ""}`
+      );
     },
-
   }),
   endpoints: (builder) => ({
     getCurrentVendor: builder.query({
-      query : () => "/",
+      query: () => "/",
     }),
-  })
-})
+  }),
+});
 
 export const operatingCityApi = createApi({
   reducerPath: "cityApi",
@@ -52,15 +57,15 @@ export const operatingCityApi = createApi({
       headers.set("authorization", `Bearer ${localStorage.getItem("token")}`);
     },
   }),
-  tagTypes: ['Cities', 'StateCity'],
+  tagTypes: ["Cities", "StateCity", "CityLocation"],
   endpoints: (builder) => ({
     getStateCity: builder.query({
       query: () => "/all",
-      providesTags: ['StateCity'],
+      providesTags: ["StateCity"],
     }),
     getAllCities: builder.query({
       query: () => "/",
-      providesTags: ['Cities'],
+      providesTags: ["Cities"],
     }),
     createCity: builder.mutation({
       query: (data) => ({
@@ -68,56 +73,63 @@ export const operatingCityApi = createApi({
         method: "POST",
         body: data,
       }),
-      invalidatesTags: ['Cities'],
+      invalidatesTags: ["Cities"],
     }),
     getSingleCity: builder.query({
       query: (_id) => `/${_id}`,
-      // providesTags: "City",
-    }),
-    updateSingleCity: builder.mutation({
-      query: (_id, data) => ({
-        url: `/${_id}`,
-        method: "PATCH",
-        body: data,
-      }),
     }),
     deleteSingleCity: builder.mutation({
       query: (_id) => ({
         url: `/${_id}`,
         method: "DELETE",
       }),
+      invalidatesTags: ["Cities"],
     }),
     getAllLocations: builder.query({
       query: (_id) => `/${_id}/locations`,
+      providesTags: (result, error, arg) => {
+        return result
+          ? [
+              ...result?.locations?.map(({ city }) => ({
+                type: "CityLocation",
+                city,
+              })),
+              "CityLocation",
+            ]
+          : ["CityLocation"];
+      },
     }),
     getSingleLocation: builder.query({
-      query: ({cityId, locationId}) => `/${cityId}/locations/${locationId}`
+      query: ({ cityId, locationId }) => `/${cityId}/locations/${locationId}`,
     }),
     addCityLocation: builder.mutation({
-      query: ({_id, ...rest}) => ({
+      query: ({ _id, ...rest }) => ({
         url: `/${_id}/locations`,
         method: "POST",
-        body: rest
+        body: rest,
       }),
+      invalidatesTags: ["CityLocation"],
     }),
     updateCityLocation: builder.mutation({
-      query: ({cityId, locationId, ...rest}) => ({
+      query: ({ cityId, locationId, ...rest }) => ({
         url: `/${cityId}/locations/${locationId}`,
         method: "PATCH",
         body: rest,
       }),
+      invalidatesTags: ["CityLocation"],
     }),
     deleteCityLocation: builder.mutation({
-      query: ({cityId, locationId}) => ({
+      query: ({ cityId, locationId }) => ({
         url: `/${cityId}/locations/${locationId}`,
         method: "DELETE",
       }),
+      invalidatesTags: ["CityLocation"],
     }),
   }),
 });
 
-export const { useLoginMutation, useRefreshTokenMutation} = loginApi;
-export const {useGetCurrentVendorQuery} = vendorDetailApi
+export const { useLoginMutation, useRefreshTokenMutation } = loginApi;
+export const { useGetCurrentVendorQuery } = vendorDetailApi;
 export const {
   useGetStateCityQuery,
   useGetAllCitiesQuery,
@@ -129,5 +141,4 @@ export const {
   useGetSingleLocationQuery,
   useGetSingleCityQuery,
   useUpdateCityLocationMutation,
-  useUpdateSingleCityMutation,
 } = operatingCityApi;

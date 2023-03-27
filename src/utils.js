@@ -6,3 +6,5 @@ export const statusCodeToMsg = {
     401: "invalid credentials",
     500: "Internal server error",
 }
+
+export const primaryColor = "#287173"

@@ -19,7 +19,7 @@ const DetailCard = () => {
           support
         </div>
         <div className="m-y-m">
-          <NavLink to="/detail/edit">
+          <NavLink to="/details/edit">
             <Button color="light">Change Details</Button>
           </NavLink>
         </div>

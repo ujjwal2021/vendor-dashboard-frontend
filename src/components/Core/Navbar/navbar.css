@@ -8,6 +8,7 @@
     position: fixed;
     top: 0;
     z-index: 100;
+    padding: 0 var(--space-xl);
 }
 .navbar-left-container{
     display: flex;
@@ -25,6 +26,9 @@
 .navbar-right-container .navbar-right-icon{
     position: relative;
 }
+.navbar-icon{
+    display: none;
+}
 .navbar-right-icon .notif-count-abs{
     position: absolute;
     top: -1rem;
@@ -35,4 +39,12 @@
     display: flex;
     align-items: center;
     justify-content: center;
+}
+@media screen and (max-width: 750px) {
+    .navbar-container{
+        padding: 0 var(--space-l);
+    }
+    .navbar-icon{
+        display: block;
+    }
 }

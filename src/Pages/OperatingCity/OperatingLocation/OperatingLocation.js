@@ -9,6 +9,8 @@ import TextArea from "../../../components/UI/TextArea/TextArea";
 import { useAddCityLocationMutation, useDeleteSingleCityMutation, useGetAllLocationsQuery, useGetSingleCityQuery } from "../../../services/api";
 import { NavLink, useNavigate, useParams } from "react-router-dom";
 import { useGlobalContext } from "../../../context";
+import Loader from "../../../components/UI/Loader/Loader";
+import Warning from "../../../components/UI/Warning/Warning";
 
 
 const options = [
@@ -21,14 +23,17 @@ const OperatingLocation = () => {
   const {frontendMessage, setFrontendMessage} = useGlobalContext()
 
 
-  const {data: allLocationFetch,  isSuccess: allLocationFetchSuccess, refetch: allLocationRefetch} = useGetAllLocationsQuery(cityId)
-  const {data: singleCityFetch, isSuccess: singleCityFetchSuccess, isError: singleCityFetchError} = useGetSingleCityQuery(cityId)
+  const {data: allLocationFetch,  isSuccess: allLocationFetchSuccess, isLoading: allLocationFetchLoading, isFetching: allLocationFetchFetching} = useGetAllLocationsQuery(cityId)
+  const {data: singleCityFetch, isSuccess: singleCityFetchSuccess, isError: singleCityFetchError, isLoading: singleCityFetchLoading, isFetching: singleCityFetchFetching} = useGetSingleCityQuery(cityId)
   const [addLocation, {isError: addLocationError, isLoading: addLocationLoading, isSuccess: addLocationSuccess}] = useAddCityLocationMutation()
   const [deleteCity, {isError: deleteCityError, isLoading: deleteCityLoading, isSuccess: deleteCitySuccess}] = useDeleteSingleCityMutation()
 
 
   const [city, setCity] = useState(singleCityFetch?.city)
   const [allLocation, setAllLocation] = useState(allLocationFetch?.locations)
+
+  // trigger warning 
+  const [warningActive, setWarningActive] = useState(false)
 
 
   // values to add
@@ -48,6 +53,9 @@ const OperatingLocation = () => {
     await addLocation(val)
   }
 
+  const openWarning = () => {
+    setWarningActive(true)
+  }
   const handleDeleteCityClick = async() => {
     await deleteCity(cityId)
   }
@@ -67,7 +75,6 @@ const OperatingLocation = () => {
         setAddress("")
         setPhone("")
         setLandmark("")
-        allLocationRefetch()
       }
   }, [addLocationSuccess])
 
@@ -75,25 +82,33 @@ const OperatingLocation = () => {
     deleteCitySuccess && navigate("/operatingCity")
   }, [deleteCitySuccess])
 
-
   // handle error
   useEffect(()=> {
     addLocationError && setFrontendMessage({status: "error", msg: "error while adding location"})
     deleteCityError && setFrontendMessage({status: "error", msg: "error while deleting city"})
   }, [addLocationError, deleteCityError])  
 
+
+  if(addLocationLoading || deleteCityLoading || singleCityFetchFetching || singleCityFetchLoading || allLocationFetchFetching || allLocationFetchLoading){
+    return (
+      <div className="outer-cover loader-container">
+        <Loader/>
+      </div>
+    )
+  }
   return (
     <div className="operating-city-container-outer outer-cover">
       <div className="operating-location-top top-title m-y-m">
         <Title>{city?.name}</Title>
-        <Button onClick={handleDeleteCityClick} disabled={deleteCityLoading ? true: false}>{
-          (deleteCityLoading) ? "Loading" : "Delete City"
-        }</Button>
+        <Button onClick={openWarning} disabled={deleteCityLoading ? true: false}>
+          Delete City
+        </Button>
       </div>
+
+      <Warning isActive={warningActive} tagline="All the locations associated will also be deleted." continueClick={handleDeleteCityClick} cancelClick={()=> setWarningActive(false)} isDisabled={deleteCityLoading || deleteCitySuccess}/>
       <div className="separator"></div>
       <div className="operating-location-main">
         <div className="operating-location-left font-regular primary-500 h5 ">
-          {/* will move to separate component */}
           {
             allLocation?.map((item, index)=> {
               const {name, id} = item;

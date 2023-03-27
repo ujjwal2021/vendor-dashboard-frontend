@@ -1,6 +1,9 @@
 import React, { useEffect, useState } from "react";
+import { FaBoxOpen } from "react-icons/fa";
 import CityCategory from "../../components/Core/CityCategory/CityCategory";
 import Button from "../../components/UI/Button/Button";
+import Loader from "../../components/UI/Loader/Loader";
+import NoData from "../../components/UI/NoData/NoData";
 import SelectComponent from "../../components/UI/Select/SelectComponent";
 import Title from "../../components/UI/Title/Title";
 import { useGlobalContext } from "../../context";
@@ -9,7 +12,6 @@ import {
   useGetAllCitiesQuery,
   useGetStateCityQuery,
 } from "../../services/api";
-import {statusCodeToMsg} from "../../utils"
 
 import "./operatingcity.css";
 
@@ -96,6 +98,13 @@ const OperatingCity = () => {
     createCityError && setFrontendMessage({status: "error", msg: "couldn't add city. Please try again later"})
   }, [stateCityFetchError, createCityError])
 
+  if(createCityLoading || stateCityFetchLoading || stateCityFetchFetching || isFetching || isLoading){
+    return (
+      <div className="outer-cover loader-container">
+        <Loader/>
+      </div>
+    )
+  }
   return (
     <div className="operating-cty-container-outer outer-cover">
       <div className="top-title operating-city-top">
@@ -105,9 +114,14 @@ const OperatingCity = () => {
       <div className="separator"></div>
 
       <div className="operating-city-main">
-        {groupedData?.map((item, index) => {
-          return <CityCategory key={index} state={item[0]} cities={item[1]} />;
-        })}
+        {
+          groupedData?.length > 0 ?
+          groupedData?.map((item, index) => {
+            return <CityCategory key={index} state={item[0]} cities={item[1]} />;
+          })
+          :
+          <NoData/>
+        }
       </div>
       <div className={`absolute-wrapper ${absoluteWrapperActive && "active"}`}>
         <div className="absolute-container">

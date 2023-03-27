@@ -4,12 +4,12 @@ import Navbar from "../../components/Core/Navbar/Navbar"
 import Sidebar from "../../components/Core/Sidebar/Sidebar"
 import { useGlobalContext } from '../../context'
 
-const Home = ({currentVendorRefetch}) => {
+const Home = () => {
   const {vendorDetail} = useGlobalContext()
   return (
     <div className='home-outer'>
       <Navbar name={vendorDetail?.name}/>
-      <Sidebar {...{currentVendorRefetch}}/>
+      <Sidebar/>
       <Outlet/>
 
     </div>

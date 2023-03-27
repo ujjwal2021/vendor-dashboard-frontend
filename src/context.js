@@ -4,12 +4,14 @@ import { useGetCurrentVendorQuery, useGetStateCityQuery } from "./services/api";
 const AppContext = React.createContext();
 
 const AppProvider = ({ children }) => {
-  // everything
+  
   const serverUrl = "https://omartravels.the-binaries.xyz/api/v1";
 
   const [frontendMessage, setFrontendMessage] = useState({status: "", msg: ""})
+  
+  const [sidebarActive, setSidebarActive] = useState(false)
 
-  const {data: currentVendorFetch, isError: currentVendorFetchError, isSuccess:currentVendorFetchSuccess, isLoading: currentVendorFetchLoading, isFetching: currentVendorFetchFetching} = useGetCurrentVendorQuery()
+  const {data: currentVendorFetch, error: currentVendorFetchError, isSuccess:currentVendorFetchSuccess, isLoading: currentVendorFetchLoading, isFetching: currentVendorFetchFetching, refetch: currentVendorRefetch} = useGetCurrentVendorQuery()
 
   const [vendorDetail, setVendorDetail] = useState(currentVendorFetch?.vendor)
   
@@ -25,6 +27,10 @@ const AppProvider = ({ children }) => {
     }
   }, [frontendMessage])
 
+
+  const verifyLogin = () => {
+    currentVendorRefetch()
+  }
 
 
 
@@ -50,7 +56,14 @@ const AppProvider = ({ children }) => {
         groupBy,
         frontendMessage,
         setFrontendMessage,
-        vendorDetail
+        vendorDetail,
+        verifyLogin,
+        currentVendorFetchError,
+        currentVendorFetchLoading,
+        currentVendorFetchFetching,
+        currentVendorFetchSuccess,
+        sidebarActive, 
+        setSidebarActive
       }}
     >
       {children}

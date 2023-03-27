@@ -1,0 +1,27 @@
+.warning-wrapper .absolute-container{
+    max-width: 30rem;
+    padding: var(--space-l) 0;
+}
+
+.warning-top{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.warning-icon{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--error-500);
+    height: 8rem;
+    width: 8rem;
+    border-radius: 100%;
+    border: 4px solid var(--error-500);
+    font-size: var(--font-h1);
+}
+
+.warning-tagline{
+    padding-top: var(--space-m);
+    color: var(--grey-900);
+    text-align: center;
+}

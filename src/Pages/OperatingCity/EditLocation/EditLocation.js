@@ -7,6 +7,7 @@ import Button from "../../../components/UI/Button/Button";
 import TextArea from "../../../components/UI/TextArea/TextArea";
 import { useDeleteCityLocationMutation, useGetAllLocationsQuery, useGetSingleCityQuery, useGetSingleLocationQuery, useUpdateCityLocationMutation } from "../../../services/api";
 import { useNavigate, useParams } from "react-router-dom";
+import Loader from "../../../components/UI/Loader/Loader";
 
 const options = [
   "place 1", "place 2"
@@ -17,10 +18,10 @@ const EditLocation = () => {
   const {cityId, locationId} = useParams() 
 
 
-  const {data: allLocationFetch,  isSuccess: allLocationFetchSuccess, refetch: allLocationRefetch} = useGetAllLocationsQuery(cityId)
-  const {data: singleCityFetch, isSuccess: singleCityFetchSuccess} = useGetSingleCityQuery(cityId)
+  const {data: allLocationFetch,  isSuccess: allLocationFetchSuccess, isLoading: allLocationFetchLoading, isFetching: allLocationFetchFetching} = useGetAllLocationsQuery(cityId)
+  const {data: singleCityFetch, isLoading: singleCityFetchLoading, isFetching: singleCityFetchFetching,isSuccess: singleCityFetchSuccess} = useGetSingleCityQuery(cityId)
 
-  const {data: singleLocationFetch, isError: singleLocationFetchError, isSuccess: singleLocationFetchSuccess, isLoading: singleLocationFetchLoading} = useGetSingleLocationQuery({cityId, locationId})
+  const {data: singleLocationFetch, isError: singleLocationFetchError, isSuccess: singleLocationFetchSuccess, isLoading: singleLocationFetchLoading, isFetching: singleLocationFetchFetching} = useGetSingleLocationQuery({cityId, locationId})
   
 
 
@@ -81,6 +82,13 @@ useEffect(()=> {
     (editLocationSuccess || deleteLocationSuccess) && navigate(`/operatingCity/${cityId}/addLocation`)
 }, [editLocationSuccess, deleteLocationSuccess])
 
+if(singleCityFetchFetching || singleCityFetchLoading || singleLocationFetchFetching || singleLocationFetchLoading || deleteLocationLoading || editLocationLoading){
+  return (
+    <div className="outer-cover loader-container">
+      <Loader/>
+    </div>
+  )
+}
   
 
   return (

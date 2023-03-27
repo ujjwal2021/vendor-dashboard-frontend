@@ -7,9 +7,11 @@ import Footer from "../../components/Core/Footer/Footer";
 import { useLoginMutation } from "../../services/api";
 import { statusCodeToMsg } from "../../utils";
 import { useNavigate } from "react-router-dom";
+import { useGlobalContext } from "../../context";
 
-const Login = ({currentVendorRefetch}) => {
-  const navigate = useNavigate();
+const Login = () => {
+  const {verifyLogin} = useGlobalContext()
+  
   const [loginMessage, setLoginMessage] = useState({ status: "", msg: "" });
   const [login, {data, error, isSuccess, isLoading, isFetching }] =
     useLoginMutation();
@@ -44,8 +46,7 @@ const Login = ({currentVendorRefetch}) => {
       localStorage.setItem("token", data?.token)
       localStorage.setItem("refreshToken", data?.refreshToken)
       setTimeout(() => {
-        currentVendorRefetch()
-        // navigate("/details");
+        verifyLogin()
       }, 1000);
     }
   }, [isSuccess]);
