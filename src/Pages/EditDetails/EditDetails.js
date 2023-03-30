@@ -40,9 +40,7 @@ const EditDetails = () => {
             </div>
           </div>
           <div className='form-control group-button-container'>
-            <NavLink to='/'>
               <Button type='outlined' color='error'>Cancel</Button>
-            </NavLink>
               <Button type='filled' color='primary'>Save Change</Button>
           </div>
         </form>

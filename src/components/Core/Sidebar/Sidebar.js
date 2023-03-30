@@ -12,24 +12,31 @@ import { useGlobalContext } from "../../../context";
 import "./sidebar.css";
 
 const Sidebar = () => {
-  const {verifyLogin, sidebarActive, setSidebarActive} = useGlobalContext()
+  const { verifyLogin, sidebarActive, setSidebarActive } = useGlobalContext();
 
   const handleClick = () => {
-    setSidebarActive((prev)=> !prev)
-  }
+    setSidebarActive((prev) => !prev);
+  };
 
   const handleLogout = () => {
-    localStorage.clear()
-    verifyLogin()
-  }
+    localStorage.clear();
+    verifyLogin();
+  };
   return (
-    <div className={`sidebar-container ${sidebarActive && 'active'} light-bg-900 p-y-l`}>
+    <div
+      className={`sidebar-container ${
+        sidebarActive && "active"
+      } light-bg-900 p-y-l`}
+    >
+      <div className="sidebar-title h2 font-bold primary-500 p-x-l p-y-l">
+        Bims
+      </div>
       <NavLink
         to="/details"
         className={({ isActive = true }) =>
           isActive ? "sidebar-menu-active" : "sidebar-menu-inactive"
         }
-      onClick={handleClick}
+        onClick={handleClick}
       >
         <div className="singlemenu-container p-y-m h5 ">
           <div className="singlemenu-icon">
@@ -43,7 +50,7 @@ const Sidebar = () => {
         className={({ isActive = true }) =>
           isActive ? "sidebar-menu-active" : "sidebar-menu-inactive"
         }
-      onClick={handleClick}
+        onClick={handleClick}
       >
         <div className="singlemenu-container p-y-m h5">
           <div className="singlemenu-icon">
@@ -52,12 +59,20 @@ const Sidebar = () => {
           <div className="">Operating City</div>
         </div>
       </NavLink>
-      <div className="singlemenu-container p-y-m h5">
-        <div className="singlemenu-icon">
-          <FaBus />
+      <NavLink
+        to="/busConfig"
+        className={({ isActive = true }) =>
+          isActive ? "sidebar-menu-active" : "sidebar-menu-inactive"
+        }
+        onClick={handleClick}
+      >
+        <div className="singlemenu-container p-y-m h5">
+          <div className="singlemenu-icon">
+            <FaBus />
+          </div>
+          <div className="">Bus Configuration</div>
         </div>
-        <div className="">Bus Configuration</div>
-      </div>
+      </NavLink>
       <div className="singlemenu-container p-y-m h5">
         <div className="singlemenu-icon">
           <FaCalendarMinus />

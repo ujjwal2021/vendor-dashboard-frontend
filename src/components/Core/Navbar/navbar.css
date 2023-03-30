@@ -25,6 +25,9 @@
 }
 .navbar-right-container .navbar-right-icon{
     position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 .navbar-icon{
     display: none;
@@ -45,6 +48,14 @@
         padding: 0 var(--space-l);
     }
     .navbar-icon{
-        display: block;
+        display: flex;
+
     }
+    .navbar-title{
+        display: none;
+    }
+    .navbar-name{
+        display: none;
+    }
+
 }

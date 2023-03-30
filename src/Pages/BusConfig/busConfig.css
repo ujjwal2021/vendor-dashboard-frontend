@@ -1,3 +1,6 @@
 .bus-table-cover{
     margin-top: var(--space-xl);
 }
+.table-content-row{
+    color: var(--grey-900);
+}

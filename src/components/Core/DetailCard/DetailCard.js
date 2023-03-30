@@ -18,7 +18,7 @@ const DetailCard = () => {
           <FaInfoCircle /> these infos are visible to passengers for customer
           support
         </div>
-        <div className="m-y-m">
+        <div className="m-y-m detail-card-button">
           <NavLink to="/details/edit">
             <Button color="light">Change Details</Button>
           </NavLink>

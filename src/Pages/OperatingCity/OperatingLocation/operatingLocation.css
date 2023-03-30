@@ -28,3 +28,15 @@
 .location-form-container .form-control{
     margin: var(--space-l) 0;
 }
+
+@media screen and (max-width: 750px) {
+    .operating-location-main{
+        flex-direction: column;
+    }
+    .operating-location-main .operating-location-left{
+        width: 100%;
+    }
+    .operating-location-main .operating-location-right{
+        width: 100%;
+    }
+}

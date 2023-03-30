@@ -57,7 +57,7 @@ export const operatingCityApi = createApi({
       headers.set("authorization", `Bearer ${localStorage.getItem("token")}`);
     },
   }),
-  tagTypes: ["Cities", "StateCity", "CityLocation"],
+  tagTypes: ["Cities", "StateCity", "CityLocation", "SingleLocation"],
   endpoints: (builder) => ({
     getStateCity: builder.query({
       query: () => "/all",
@@ -92,7 +92,7 @@ export const operatingCityApi = createApi({
           ? [
               ...result?.locations?.map(({ city }) => ({
                 type: "CityLocation",
-                city,
+                id: city,
               })),
               "CityLocation",
             ]
@@ -101,6 +101,16 @@ export const operatingCityApi = createApi({
     }),
     getSingleLocation: builder.query({
       query: ({ cityId, locationId }) => `/${cityId}/locations/${locationId}`,
+      providesTags: (result, error, arg) => {
+        return result
+          ? [
+              {
+                type: "CityLocation",
+                id: result?.location?.id,
+              },
+            ]
+          : ["SingleLocation"];
+      },
     }),
     addCityLocation: builder.mutation({
       query: ({ _id, ...rest }) => ({
@@ -116,14 +126,163 @@ export const operatingCityApi = createApi({
         method: "PATCH",
         body: rest,
       }),
-      invalidatesTags: ["CityLocation"],
+      invalidatesTags: ["CityLocation", "SingleLocation"],
     }),
     deleteCityLocation: builder.mutation({
       query: ({ cityId, locationId }) => ({
         url: `/${cityId}/locations/${locationId}`,
         method: "DELETE",
       }),
-      invalidatesTags: ["CityLocation"],
+      invalidatesTags: ["CityLocation", "SingleLocation"],
+    }),
+  }),
+});
+
+export const busTypesApi = createApi({
+  reducerPath: "busTypeApi",
+  baseQuery: fetchBaseQuery({
+    baseUrl: serverUrl + "/bustypes",
+    prepareHeaders: (headers) => {
+      headers.set(
+        "authorization",
+        `Bearer ${localStorage.getItem("token") || ""}`
+      );
+    },
+  }),
+  tagTypes: ["BusTypes", "BusType"],
+  endpoints: (builder) => ({
+    getAllBusTypes: builder.query({
+      query: () => "/",
+      providesTags: ["BusTypes"],
+    }),
+    createBusType: builder.mutation({
+      query: (data) => ({
+        url: "/",
+        method: "POST",
+        body: data,
+      }),
+      invalidatesTags: ["BusTypes"],
+    }),
+    getSingleBusType: builder.query({
+      query: (busTypeId) => `/${busTypeId}`,
+      providesTags: (result, error, arg) => {
+        return result
+          ? [
+              {
+                type: "BusType",
+                id: result?.busType?.id,
+              },
+            ]
+          : ["BusType"];
+      },
+    }),
+    updateSingleBusType: builder.mutation({
+      query: ({ singleBusTypeId, ...rest }) => ({
+        url: `/${singleBusTypeId}`,
+        method: "PATCH",
+        body: rest,
+      }),
+      invalidatesTags: ["BusType"],
+    }),
+    deleteSingleBusType: builder.mutation({
+      query: ({ singleBusTypeId }) => ({
+        url: `/${singleBusTypeId}`,
+        method: "DELETE",
+      }),
+      invalidatesTags: ["BusType"],
+    }),
+  }),
+});
+
+export const busApi = createApi({
+  reducerPath: "busApi",
+  baseQuery: fetchBaseQuery({
+    baseUrl: serverUrl + "/buses",
+    prepareHeaders: (headers) => {
+      headers.set(
+        "authorization",
+        `Bearer ${localStorage.getItem("token" || "")}`
+      );
+    },
+  }),
+  tagTypes: ["Buses", "Bus"],
+  endpoints: (builder) => ({
+    getAllBuses: builder.query({
+      query: () => "/",
+      providesTags: ["Buses"],
+    }),
+    createBuses: builder.mutation({
+      query: (data) => ({
+        url: "/",
+        method: "POST",
+        body: data,
+      }),
+      invalidatesTags: ["Buses"],
+    }),
+    getSingleBus: builder.query({
+      query: (singleBusId) => `/${singleBusId}`,
+      providesTags: ["Bus"],
+    }),
+    updateSingleBus: builder.mutation({
+      query: ({ singleBusId, ...rest }) => ({
+        url: `/${singleBusId}`,
+        method: "PATCH",
+        body: rest,
+      }),
+      invalidatesTags: ["Bus"],
+    }),
+    deleteSingleBus: builder.mutation({
+      query: ({ singleBusId }) => ({
+        url: `/${singleBusId}`,
+        method: "DELETE",
+      }),
+      invalidatesTags: ["Bus"],
+    }),
+  }),
+});
+export const tripApi = createApi({
+  reducerPath: "tripApi",
+  baseQuery: fetchBaseQuery({
+    baseUrl: serverUrl + "/trips",
+    prepareHeaders: (headers) => {
+      headers.set(
+        "authorization",
+        `Bearer ${localStorage.getItem("token" || "")}`
+      );
+    },
+  }),
+  tagTypes: ["Trips", "Trip"],
+  endpoints: (builder) => ({
+    getAllTrips: builder.query({
+      query: () => "/",
+      providesTags: ["Trips"],
+    }),
+    createTrip: builder.mutation({
+      query: (data) => ({
+        url: "/",
+        method: "POST",
+        body: data,
+      }),
+      invalidatesTags: ["Trips"],
+    }),
+    getSingleTrip: builder.query({
+      query: (singleTripId) => `/${singleTripId}`,
+      providesTags: ["Trip"],
+    }),
+    updateSingleTrip: builder.mutation({
+      query: ({ singleTripId, ...rest }) => ({
+        url: `/${singleTripId}`,
+        method: "PATCH",
+        body: rest,
+      }),
+      invalidatesTags: ["Trip"],
+    }),
+    deleteSingleTrip: builder.mutation({
+      query: ({ singleTripId }) => ({
+        url: `/${singleTripId}`,
+        method: "DELETE",
+      }),
+      invalidatesTags: ["Trip"],
     }),
   }),
 });
@@ -142,3 +301,28 @@ export const {
   useGetSingleCityQuery,
   useUpdateCityLocationMutation,
 } = operatingCityApi;
+
+export const {
+  useCreateBusTypeMutation,
+  useGetAllBusTypesQuery,
+  useGetSingleBusTypeQuery,
+  useUpdateSingleBusTypeMutation,
+  useDeleteSingleBusTypeMutation,
+} = busTypesApi;
+
+export const {
+  useCreateBusesMutation,
+  useGetAllBusesQuery,
+  useGetSingleBusQuery,
+  useUpdateSingleBusMutation,
+  useDeleteSingleBusMutation,
+} = busApi;
+
+export const 
+{
+  useCreateTripMutation,
+  useGetAllTripsQuery,
+  useGetSingleTripQuery,
+  useUpdateSingleTripMutation,
+  useDeleteSingleTripMutation
+} = tripApi;

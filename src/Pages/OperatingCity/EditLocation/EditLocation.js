@@ -18,7 +18,6 @@ const EditLocation = () => {
   const {cityId, locationId} = useParams() 
 
 
-  const {data: allLocationFetch,  isSuccess: allLocationFetchSuccess, isLoading: allLocationFetchLoading, isFetching: allLocationFetchFetching} = useGetAllLocationsQuery(cityId)
   const {data: singleCityFetch, isLoading: singleCityFetchLoading, isFetching: singleCityFetchFetching,isSuccess: singleCityFetchSuccess} = useGetSingleCityQuery(cityId)
 
   const {data: singleLocationFetch, isError: singleLocationFetchError, isSuccess: singleLocationFetchSuccess, isLoading: singleLocationFetchLoading, isFetching: singleLocationFetchFetching} = useGetSingleLocationQuery({cityId, locationId})
@@ -30,12 +29,10 @@ const EditLocation = () => {
   const [editLocation, {isError: editLocationError, isLoading: editLocationLoading, isSuccess: editLocationSuccess}] = useUpdateCityLocationMutation()
   const [deleteLocation, {isError: deleteLocationError, isSuccess: deleteLocationSuccess, isLoading: deleteLocationLoading}] = useDeleteCityLocationMutation()
   const [city, setCity] = useState(singleCityFetch?.city)
-  const [allLocation, setAllLocation] = useState(allLocationFetch?.locations)
-  const [singleLocation, setSingleLocation] = useState(singleCityFetch?.location)
-
+  const [singleLocation, setSingleLocation] = useState(singleLocationFetch?.location)
 
   // values to add
-  const [selectLocationValue, setSelectLocationValue] = useState("");
+  const [selectLocationValue, setSelectLocationValue] = useState(singleLocationFetch?.location?.name || "");
   const [address, setAddress] = useState("")
   const [phone, setPhone] = useState("")
   const [landmark, setLandmark] = useState("")
@@ -57,17 +54,13 @@ const EditLocation = () => {
   }
 
 
-  // set all location data
-  useEffect(()=> {
-      allLocationFetchSuccess && setAllLocation(allLocationFetch?.locations)
-  }, [allLocationFetchSuccess, allLocationFetch])
-
   useEffect(()=> {
     singleCityFetchSuccess && setCity(singleCityFetch?.city)
   }, [singleCityFetchSuccess, singleCityFetch])
 
   useEffect(()=> {
     if(singleLocationFetchSuccess){
+      setSelectLocationValue(singleLocationFetch?.location?.name)
         setSingleLocation(singleLocationFetch?.location || "")
         setSelectLocationValue(singleLocationFetch?.location?.name || "")
         setAddress(singleLocationFetch?.location?.address || "")
@@ -94,21 +87,11 @@ if(singleCityFetchFetching || singleCityFetchLoading || singleLocationFetchFetch
   return (
     <div className="operating-city-container-outer outer-cover">
       <div className="operating-location-top m-y-m">
-        <Title>{city?.name} ({selectLocationValue})</Title>
+        <Title>{city?.name} ({singleLocation?.name})</Title>
       </div>
       <div className="separator"></div>
       <div className="operating-location-main">
-        <div className="operating-location-left font-regular primary-500 h5 ">
-          {/* will move to separate component */}
-          {
-            allLocation?.map((item, index)=> {
-              const {name, id} = item;
-              return <div key={index} className="location-list-item click">{name}</div>
-            })
-          }
-          
-        </div>
-        <div className="operating-location-right">
+        <div className="operating-city-form">
           <div className="info primary-500 para">
             {" "}
             <FaInfoCircle />{" "}

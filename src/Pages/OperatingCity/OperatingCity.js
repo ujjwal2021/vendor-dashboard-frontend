@@ -53,18 +53,18 @@ const OperatingCity = () => {
 
   const cancelClick = () => {
     setAbsoluteWrapperActive(false);
-    setSelectStateValue("")
-    setSelectCityValue("")
+    setSelectStateValue("");
+    setSelectCityValue("");
   };
 
   const openAbsoluteClick = () => {
     setAbsoluteWrapperActive(true);
   };
-  const addCityClick = async () => {    
+  const addCityClick = async () => {
     // api call
     await createCity({ state: selectStateValue, name: selectCityValue });
-    setSelectStateValue("")
-    setSelectCityValue("")
+    setSelectStateValue("");
+    setSelectCityValue("");
     setAbsoluteWrapperActive(false);
   };
 
@@ -91,37 +91,51 @@ const OperatingCity = () => {
     setSelectCityValue("");
   }, [selectStateValue]);
 
-
   // handling errors
-  useEffect(()=> {
-    stateCityFetchError && setFrontendMessage({status: "error", msg: "Some error occured while fetching state and city"})
-    createCityError && setFrontendMessage({status: "error", msg: "couldn't add city. Please try again later"})
-  }, [stateCityFetchError, createCityError])
+  useEffect(() => {
+    stateCityFetchError &&
+      setFrontendMessage({
+        status: "error",
+        msg: "Some error occured while fetching state and city",
+      });
+    createCityError &&
+      setFrontendMessage({
+        status: "error",
+        msg: "couldn't add city. Please try again later",
+      });
+  }, [stateCityFetchError, createCityError]);
 
-  if(createCityLoading || stateCityFetchLoading || stateCityFetchFetching || isFetching || isLoading){
+  if (
+    createCityLoading ||
+    stateCityFetchLoading ||
+    stateCityFetchFetching ||
+    isFetching ||
+    isLoading
+  ) {
     return (
       <div className="outer-cover loader-container">
-        <Loader/>
+        <Loader />
       </div>
-    )
+    );
   }
   return (
     <div className="operating-cty-container-outer outer-cover">
       <div className="top-title operating-city-top">
-        <Title>Add Operating City</Title>
+        <Title>Operating City</Title>
         <Button onClick={openAbsoluteClick}>Add Operating city</Button>
       </div>
       <div className="separator"></div>
 
       <div className="operating-city-main">
-        {
-          groupedData?.length > 0 ?
+        {groupedData?.length > 0 ? (
           groupedData?.map((item, index) => {
-            return <CityCategory key={index} state={item[0]} cities={item[1]} />;
+            return (
+              <CityCategory key={index} state={item[0]} cities={item[1]} />
+            );
           })
-          :
-          <NoData/>
-        }
+        ) : (
+          <NoData />
+        )}
       </div>
       <div className={`absolute-wrapper ${absoluteWrapperActive && "active"}`}>
         <div className="absolute-container">
@@ -164,7 +178,13 @@ const OperatingCity = () => {
                 size="default"
                 color="primary"
                 onClick={addCityClick}
-                disabled={createCityLoading ? true : false}
+                disabled={
+                  createCityLoading ||
+                  selectCityValue.length === 0 ||
+                  selectStateValue.length === 0
+                    ? true
+                    : false
+                }
               >
                 {createCityLoading ? "Loading" : "Add City"}
               </Button>

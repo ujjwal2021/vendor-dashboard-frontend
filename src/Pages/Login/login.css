@@ -45,11 +45,12 @@
 
 @media screen and (max-width: 750px) {
     .login-wrapper{
-        width: 90%;
+        width: 100%;
+        padding: var(--space-m);
     }
     .login-top-strip{
-        padding: 0 var(--space-xl);
-        padding-left: 10%;
+        padding: 0 var(--space-m);
+        /* padding-left: 10%; */
 
     }
 }

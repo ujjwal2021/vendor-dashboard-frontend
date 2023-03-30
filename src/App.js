@@ -1,5 +1,6 @@
 import React, { useEffect } from "react";
 import { BrowserRouter as Router,Routes, Route, Navigate, useNavigate} from "react-router-dom"
+import { useGlobalContext } from "./context";
 import Login from "./Pages/Login/Login"
 import Home from "./Pages/Home/Home"
 import Details from "./Pages/Details/Details"
@@ -7,8 +8,10 @@ import OperatingCity from "./Pages/OperatingCity/OperatingCity"
 import OperatinLocation from "./Pages/OperatingCity/OperatingLocation/OperatingLocation"
 import EditDetails from "./Pages/EditDetails/EditDetails"
 import EditLocation from "./Pages/OperatingCity/EditLocation/EditLocation";
-import { useGetCurrentVendorQuery } from "./services/api";
-import { useGlobalContext } from "./context";
+import BusConfig from "./Pages/BusConfig/BusConfig"
+import AddBusTypes from "./Pages/BusTypes/AddBusTypes/AddBusTypes";
+import EditBusTypes from "./Pages/BusTypes/EditBusTypes/EditBusTypes";
+import AddBus from "./Pages/Bus/AddBus/AddBus";
 
 function App() {
   const navigate = useNavigate()
@@ -41,6 +44,10 @@ function App() {
               <Route path="operatingCity" element={<OperatingCity/>}/>
               <Route path="operatingCity/:cityId/addLocation" element={<OperatinLocation/>}/>
               <Route path="operatingCity/:cityId/locations/:locationId/edit" element={<EditLocation/>}/>
+              <Route path="busConfig" element={<BusConfig/>}/>
+              <Route path="busConfig/busTypes/add" element={<AddBusTypes/>}/>
+              <Route path="busConfig/busTypes/:busTypeId/edit" element={<EditBusTypes/>}/>
+              <Route path="busCOnfig/bus/add" element={<AddBus/>}/>
             </Route>
           </Routes>
         )

@@ -1,6 +1,5 @@
 .detail-card-container{
     display: flex;
-    /* align-items: center; */
     border-radius: 0.5rem;
 }
 .detail-card-container .detail-card-left{
@@ -20,4 +19,15 @@
 img{
     /* height: 100%; */
     width: 100%;
+}
+@media screen and (max-width: 500px) {
+    .detail-card-container .detail-card-left{
+        width: 100%;
+    }
+    .detail-card-container .detail-card-right{
+        display: none;
+    }
+   .detail-card-button button{
+    width: 100% !important;
+   }
 }

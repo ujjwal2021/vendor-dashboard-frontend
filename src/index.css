@@ -471,7 +471,6 @@ a{
   justify-content: center;
 }
 .absolute-wrapper.active .absolute-container{
-  /* width: fi; */
   width: 40%;
   border-radius: 0.5rem;
   background-color: var(--light-900);
@@ -551,6 +550,12 @@ a{
   left: 40%;
   transform: translate(-50%, -50%);
 }
+.row-wrapper{
+  display: flex;
+}
+.row-wrapper div{
+  width: 100%;
+}
 
 @media screen and (max-width: 1000px) {
   .absolute-wrapper.active .absolute-container{
@@ -559,9 +564,12 @@ a{
 }
 @media screen and (max-width: 750px) {
   .absolute-wrapper.active .absolute-container{
-    width: 80%;
+    width: 95%;
   }
   .outer-cover{
     margin-left:0;
+  }
+  .loader-container{
+    left: 50%;
   }
 }

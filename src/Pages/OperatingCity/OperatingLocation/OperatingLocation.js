@@ -58,6 +58,7 @@ const OperatingLocation = () => {
   }
   const handleDeleteCityClick = async() => {
     await deleteCity(cityId)
+    setWarningActive(false)
   }
 
   // set all location data

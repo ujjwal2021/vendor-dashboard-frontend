@@ -12,7 +12,6 @@ const Navbar = ({name}) => {
     <div className='navbar-container light-bg-900'>
         <div className='navbar-left-container'>
           <div className='navbar-icon navbar-left-icon h3 dark-500 click' onClick={handleClick}>
-            {/* icon not fit for the change */}
             {
               sidebarActive? 
               <FaTimes/>:
@@ -20,7 +19,7 @@ const Navbar = ({name}) => {
 
             }
           </div> 
-          <div className='h1 primary-500 font-bold'>Bims</div> 
+          <div className='h1 primary-500 font-bold navbar-title'>Bims</div> 
         </div>
         <div className='navbar-right-container'>
             <div className='navbar-right-icon primary-500 h4 click'>
@@ -29,7 +28,7 @@ const Navbar = ({name}) => {
                 2
               </div>
             </div>
-            <div className='dark-500 h6'>{name}</div>
+            <div className='dark-500 h6 navbar-name'>{name}</div>
         </div>
    
     
