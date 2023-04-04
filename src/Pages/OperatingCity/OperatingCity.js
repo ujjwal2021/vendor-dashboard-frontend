@@ -19,10 +19,10 @@ const OperatingCity = () => {
   const { groupBy, setFrontendMessage } = useGlobalContext();
   const [absoluteWrapperActive, setAbsoluteWrapperActive] = useState(false);
 
-  const [selectStateValue, setSelectStateValue] = useState("");
-  const [selectCityValue, setSelectCityValue] = useState("");
+  const [selectStateValue, setSelectStateValue] = useState({option: "", value: ""});
+  const [selectCityValue, setSelectCityValue] = useState({option: "", value: ""});
 
-  const { data, isError, isFetching, isLoading, isSuccess, refetch } =
+  const { data, isError, isFetching, isLoading, isSuccess } =
     useGetAllCitiesQuery();
 
   const [
@@ -53,8 +53,8 @@ const OperatingCity = () => {
 
   const cancelClick = () => {
     setAbsoluteWrapperActive(false);
-    setSelectStateValue("");
-    setSelectCityValue("");
+    setSelectStateValue({option: "", value: ""});
+    setSelectCityValue({option: "", value: ""});
   };
 
   const openAbsoluteClick = () => {
@@ -62,9 +62,9 @@ const OperatingCity = () => {
   };
   const addCityClick = async () => {
     // api call
-    await createCity({ state: selectStateValue, name: selectCityValue });
-    setSelectStateValue("");
-    setSelectCityValue("");
+    await createCity({ state: selectStateValue.value, name: selectCityValue.value });
+    setSelectStateValue({option: "", value: ""});
+    setSelectCityValue({option: "", value: ""});
     setAbsoluteWrapperActive(false);
   };
 
@@ -88,8 +88,8 @@ const OperatingCity = () => {
   }, [stateCityFetchSuccess, stateCityFetch]);
 
   useEffect(() => {
-    setSelectCityValue("");
-  }, [selectStateValue]);
+    setSelectCityValue({option: "", value: ""});
+  }, [selectStateValue.value]);
 
   // handling errors
   useEffect(() => {
@@ -113,9 +113,7 @@ const OperatingCity = () => {
     isLoading
   ) {
     return (
-      <div className="outer-cover loader-container">
         <Loader />
-      </div>
     );
   }
   return (
@@ -160,7 +158,7 @@ const OperatingCity = () => {
                   placeholder="Select City"
                   selectValue={selectCityValue}
                   setSelectValue={setSelectCityValue}
-                  options={stateCityData ? stateCityData[selectStateValue] : []}
+                  options={stateCityData ? stateCityData[selectStateValue.value] : []}
                 />
               </div>
             </div>
@@ -180,8 +178,8 @@ const OperatingCity = () => {
                 onClick={addCityClick}
                 disabled={
                   createCityLoading ||
-                  selectCityValue.length === 0 ||
-                  selectStateValue.length === 0
+                  selectCityValue.value.length === 0 ||
+                  selectStateValue.value.length === 0
                     ? true
                     : false
                 }

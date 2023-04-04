@@ -1,5 +1,5 @@
 import React, { useEffect } from "react";
-import { BrowserRouter as Router,Routes, Route, Navigate, useNavigate} from "react-router-dom"
+import { Routes, Route, Navigate, useNavigate} from "react-router-dom"
 import { useGlobalContext } from "./context";
 import Login from "./Pages/Login/Login"
 import Home from "./Pages/Home/Home"
@@ -12,11 +12,11 @@ import BusConfig from "./Pages/BusConfig/BusConfig"
 import AddBusTypes from "./Pages/BusTypes/AddBusTypes/AddBusTypes";
 import EditBusTypes from "./Pages/BusTypes/EditBusTypes/EditBusTypes";
 import AddBus from "./Pages/Bus/AddBus/AddBus";
+import EditBus from "./Pages/Bus/EditBus/EditBus";
 
 function App() {
   const navigate = useNavigate()
-  const {frontendMessage, setFrontendMessage, currentVendorFetchError, currentVendorFetchLoading, currentVendorFetchFetching, currentVendorFetchSuccess} = useGlobalContext()
-  // const {data: currentVendorFetch, error: currentVendorFetchError, isSuccess:currentVendorFetchSuccess, isLoading: currentVendorFetchLoading, isFetching: currentVendorFetchFetching, refetch: currentVendorRefetch} = useGetCurrentVendorQuery()
+  const {frontendMessage, currentVendorFetchError, currentVendorFetchLoading, currentVendorFetchFetching, currentVendorFetchSuccess} = useGlobalContext()
 
   useEffect(()=> {
     currentVendorFetchError && navigate("/login")
@@ -47,7 +47,8 @@ function App() {
               <Route path="busConfig" element={<BusConfig/>}/>
               <Route path="busConfig/busTypes/add" element={<AddBusTypes/>}/>
               <Route path="busConfig/busTypes/:busTypeId/edit" element={<EditBusTypes/>}/>
-              <Route path="busCOnfig/bus/add" element={<AddBus/>}/>
+              <Route path="busConfig/bus/add" element={<AddBus/>}/>
+              <Route path="busConfig/bus/:busId/edit" element={<EditBus/>}/>
             </Route>
           </Routes>
         )

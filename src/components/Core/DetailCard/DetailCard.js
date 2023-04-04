@@ -12,8 +12,8 @@ const DetailCard = () => {
     <div className="detail-card-container primary-container container primary-bg p-l">
       <div className="detail-card-left light-900 font-regular font-46">
         <div className=" h1">{vendorDetail?.name}</div>
-        <div className="p-y-xs">{vendorDetail?.email || "travels.omar@gmail.com"}</div>
-        <div className="p-y-xs">{vendorDetail?.phone || "+91 810000000"}</div>
+        <div className="p-y-xs">{vendorDetail?.email}</div>
+        <div className="p-y-xs">{vendorDetail?.phone}</div>
         <div className="warning-text p-y-xs font-para">
           <FaInfoCircle /> these infos are visible to passengers for customer
           support

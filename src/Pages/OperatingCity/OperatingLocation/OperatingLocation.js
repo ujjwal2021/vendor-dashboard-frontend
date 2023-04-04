@@ -13,10 +13,6 @@ import Loader from "../../../components/UI/Loader/Loader";
 import Warning from "../../../components/UI/Warning/Warning";
 
 
-const options = [
-  "place 1", "place 2"
-]
-
 const OperatingLocation = () => {
   const {cityId} = useParams() 
   const navigate = useNavigate()
@@ -37,7 +33,7 @@ const OperatingLocation = () => {
 
 
   // values to add
-  const [selectLocationValue, setSelectLocationValue] = useState("");
+  const [location, setLocation] = useState("");
   const [address, setAddress] = useState("")
   const [phone, setPhone] = useState("")
   const [landmark, setLandmark] = useState("")
@@ -45,7 +41,7 @@ const OperatingLocation = () => {
   const handleAddLocationClick = async () => {
     const val = {
       _id: cityId,
-      name: selectLocationValue,
+      name: location,
       address,
       phone,
       landmark
@@ -57,8 +53,8 @@ const OperatingLocation = () => {
     setWarningActive(true)
   }
   const handleDeleteCityClick = async() => {
-    await deleteCity(cityId)
     setWarningActive(false)
+    await deleteCity(cityId)
   }
 
   // set all location data
@@ -72,7 +68,7 @@ const OperatingLocation = () => {
 
   useEffect(()=> {
       if(addLocationSuccess){
-        setSelectLocationValue("")
+        setLocation("")
         setAddress("")
         setPhone("")
         setLandmark("")
@@ -92,15 +88,13 @@ const OperatingLocation = () => {
 
   if(addLocationLoading || deleteCityLoading || singleCityFetchFetching || singleCityFetchLoading || allLocationFetchFetching || allLocationFetchLoading){
     return (
-      <div className="outer-cover loader-container">
         <Loader/>
-      </div>
     )
   }
   return (
     <div className="operating-city-container-outer outer-cover">
       <div className="operating-location-top top-title m-y-m">
-        <Title>{city?.name}</Title>
+        <Title backIcon={true}>{city?.name}</Title>
         <Button onClick={openWarning} disabled={deleteCityLoading ? true: false}>
           Delete City
         </Button>
@@ -114,7 +108,6 @@ const OperatingLocation = () => {
             allLocation?.map((item, index)=> {
               const {name, id} = item;
               return <NavLink key={index} to={`/operatingCity/${cityId}/locations/${id}/edit`} className="primary-500"><div className="location-list-item click">{name}</div></NavLink>
-              // return <div key={index} className="location-list-item click">{name}</div>
             })
           }
           
@@ -131,12 +124,12 @@ const OperatingLocation = () => {
 
           <div className="location-form-container">
             <div className="form-control">
-              <SelectComponent
+              <InputWithLabel
+                placeholder="Enter the location name"
                 label="Location"
                 labelTag="select among the known location"
-                selectValue={selectLocationValue}
-                setSelectValue={setSelectLocationValue}
-                options={options}
+                value={location}
+                onchange={(e)=> setLocation(e.target.value)}
               />
             </div>
             <div className="form-control">

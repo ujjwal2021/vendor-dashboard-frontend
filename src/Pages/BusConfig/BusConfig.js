@@ -43,6 +43,7 @@ const BusConfig = () => {
     navigate("/busConfig/bus/add");
   };
 
+
   if (
     allBusTypesFetchFetching ||
     allBusTypesFetchLoading ||
@@ -50,9 +51,7 @@ const BusConfig = () => {
     allBusFetchLoading
   ) {
     return (
-      <div className="outer-cover loader-container">
         <Loader />
-      </div>
     );
   }
   return (
@@ -64,20 +63,20 @@ const BusConfig = () => {
         </div>
         <div className="separator"></div>
         <div className="table-outer bus-type-table-outer">
-          <div className="table-row table-title-row h5 light-bg-300 font-semibold">
+          <div className="table-row table-title-row h5 light-bg-100 font-semibold">
             <div className="row-content table-title">Type Name</div>
             <div className="row-content table-title">Type Detail</div>
           </div>
           {allBusTypesData?.map((item, index) => {
             const { name, vehicleMake, seatingType, features, hasAC, id } = item;
             return (
-              <NavLink to={`/busConfig/busTypes/${id}/edit`}>
+              <NavLink to={`/busConfig/busTypes/${id}/edit`} key={index}>
                 <div className="table-row table-content-row h6" key={index}>
                   <div className="row-content">{name} </div>
                   <div className="row-content">
-                    {vehicleMake} / {seatingType} / {hasAC ? "AC" : "Non-AC"} /
+                    {vehicleMake} / {seatingType} / {hasAC ? "AC" : "Non-AC"} &nbsp;
                     {features?.map((item) => {
-                      return `${item}`;
+                      return `${item} `;
                     })}
                   </div>
                 </div>
@@ -93,20 +92,23 @@ const BusConfig = () => {
         </div>
         <div className="separator"></div>
         <div className="table-outer bus-table-outer">
-          <div className="table-row table-title-row h5 light-bg-300">
+          <div className="table-row table-title-row h5 light-bg-100">
             <div className="row-content table-title">Reg No</div>
             <div className="row-content table-title">Bus Type</div>
             <div className="row-content table-title">Depo Name</div>
           </div>
 
           {allBusData?.map((item, index) => {
-            const { regNo, bustype, depoName } = item;
+            const { regNo, busTypeInfo, depoName,id } = item;
             return (
-              <div className="table-row table-content-row h6" key={index}>
+              <NavLink to={`/busConfig/bus/${id}/edit`} key={index}>
+              <div className="table-row table-content-row h6">
                 <div className="row-content">{regNo}</div>
-                <div className="row-content">{bustype}</div>
+                <div className="row-content">{busTypeInfo?.name}</div>
                 <div className="row-content">{depoName}</div>
               </div>
+
+              </NavLink>
             );
           })}
         </div>

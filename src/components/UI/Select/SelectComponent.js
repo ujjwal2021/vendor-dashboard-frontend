@@ -12,7 +12,7 @@ const SelectComponent = ({
   labelTag = "",
   options = [],
 }) => {
-  const [search, setSearch] = useState(selectValue);
+  const [search, setSearch] = useState(selectValue.option || "");
   const [isActive, setIsActive] = useState(false);
   const [filteredOptions, setFilteredOptions] = useState(options);
 
@@ -21,8 +21,14 @@ const SelectComponent = ({
     setSearch(val);
     const tempArr = [];
     options?.map((item) => {
-      if (item?.toLowerCase().includes(val.toLowerCase())) {
-        tempArr.push(item);
+      if(typeof(item) === "object"){
+        if (item?.option?.toLowerCase().includes(val.toLowerCase())) {
+          tempArr.push({option: item.option, value: item.value});
+        }  
+      } else {
+        if (item?.toLowerCase().includes(val.toLowerCase())) {
+          tempArr.push(item);
+        }
       }
       return;
     });
@@ -38,7 +44,8 @@ const SelectComponent = ({
   }, [options]);
 
   useEffect(() => {
-    selectValue?.length === 0 && setSearch("");
+    selectValue?.option?.length === 0 && setSearch("");
+    selectValue?.option?.length > 0  && setSearch(selectValue?.option)
   }, [selectValue]);
 
   return (
@@ -60,14 +67,26 @@ const SelectComponent = ({
       </div>
       <div className={`option-wrapper ${isActive && "active"}`}>
         {filteredOptions?.map((item, index) => {
-          return (
-            <SelectOption
-              key={index}
-              option={item}
-              value={item}
-              {...{ selectValue, setSelectValue, setIsActive, setSearch }}
-            />
-          );
+          if (typeof item === "string") {
+            return (
+              <SelectOption
+                key={index}
+                option={item}
+                value={item}
+                {...{ selectValue, setSelectValue, setIsActive, setSearch }}
+              />
+            );
+          } else {
+            const { option, value } = item;
+            return (
+              <SelectOption
+                key={index}
+                option={option}
+                value={value}
+                {...{ selectValue, setSelectValue, setIsActive, setSearch }}
+              />
+            );
+          }
         })}
       </div>
     </div>

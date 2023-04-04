@@ -1,14 +1,14 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 
 const SelectOption = ({setSelectValue, option, value, setIsActive, selectValue, setSearch}) => {
-    // const [optionActive, setOptionActive] = useState(selectValue===value)
     const handleClick = () => {
-        setSelectValue(value)
+        setSelectValue({option: option, value: value})
         setIsActive(false)
-        setSearch(value)
+        setSearch(option)
     }
+
   return (
-    <div className={`select-option p-m ${(value=== selectValue)&&"active"}`} onClick={handleClick}>{option}</div>
+    <div className={`select-option p-m ${(value === selectValue.value)&&"active"}`} onClick={handleClick}>{option}</div>
   )
 }
 

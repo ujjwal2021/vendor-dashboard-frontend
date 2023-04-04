@@ -41,11 +41,26 @@ export const vendorDetailApi = createApi({
         `Bearer ${localStorage.getItem("token") || ""}`
       );
     },
+
   }),
+  tagTypes: ["Vendor"],
   endpoints: (builder) => ({
     getCurrentVendor: builder.query({
       query: () => "/",
+      providesTags: ["Vendor"]
     }),
+    updateCurrentVendor: builder.mutation({
+      query: (data)=> ({
+        url: `/`,
+        method: "PATCH",
+        body: data
+      }),
+      invalidatesTags: (result, error, arg) => {
+        if(!error){
+          return ["Vendor"]
+        }
+      }
+    })
   }),
 });
 
@@ -182,14 +197,14 @@ export const busTypesApi = createApi({
         method: "PATCH",
         body: rest,
       }),
-      invalidatesTags: ["BusType"],
+      invalidatesTags: ["BusType", "BusTypes"],
     }),
     deleteSingleBusType: builder.mutation({
       query: ({ singleBusTypeId }) => ({
         url: `/${singleBusTypeId}`,
         method: "DELETE",
       }),
-      invalidatesTags: ["BusType"],
+      invalidatesTags: ["BusType", "BusTypes"],
     }),
   }),
 });
@@ -229,14 +244,14 @@ export const busApi = createApi({
         method: "PATCH",
         body: rest,
       }),
-      invalidatesTags: ["Bus"],
+      invalidatesTags: ["Bus", "Buses"],
     }),
     deleteSingleBus: builder.mutation({
       query: ({ singleBusId }) => ({
         url: `/${singleBusId}`,
         method: "DELETE",
       }),
-      invalidatesTags: ["Bus"],
+      invalidatesTags: ["Bus", "Buses"],
     }),
   }),
 });
@@ -287,8 +302,32 @@ export const tripApi = createApi({
   }),
 });
 
+export const uploadApi = createApi({
+  reducerPath: "uploadApi",
+  baseQuery: fetchBaseQuery({
+    baseUrl: serverUrl + "/upload",
+    prepareHeaders: (headers) => {
+      headers.set(
+        "authorization",
+        `Bearer ${localStorage.getItem("token" || "")}`
+      );
+    },
+  }),
+  endpoints: (builder) => ({
+    uploadImage: builder.mutation({
+      query: (img) => ({
+        headers: {
+          // "content-type": "multipart/form-data; boundary=MyBoundry",
+        },
+        url: "/",
+        method: "POST",
+        body: img,
+      }),
+    }),
+  }),
+});
 export const { useLoginMutation, useRefreshTokenMutation } = loginApi;
-export const { useGetCurrentVendorQuery } = vendorDetailApi;
+export const { useGetCurrentVendorQuery, useUpdateCurrentVendorMutation } = vendorDetailApi;
 export const {
   useGetStateCityQuery,
   useGetAllCitiesQuery,
@@ -318,11 +357,12 @@ export const {
   useDeleteSingleBusMutation,
 } = busApi;
 
-export const 
-{
+export const {
   useCreateTripMutation,
   useGetAllTripsQuery,
   useGetSingleTripQuery,
   useUpdateSingleTripMutation,
-  useDeleteSingleTripMutation
+  useDeleteSingleTripMutation,
 } = tripApi;
+
+export const {useUploadImageMutation} = uploadApi;

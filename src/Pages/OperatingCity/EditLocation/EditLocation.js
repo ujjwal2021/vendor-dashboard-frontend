@@ -9,9 +9,6 @@ import { useDeleteCityLocationMutation, useGetAllLocationsQuery, useGetSingleCit
 import { useNavigate, useParams } from "react-router-dom";
 import Loader from "../../../components/UI/Loader/Loader";
 
-const options = [
-  "place 1", "place 2"
-]
 
 const EditLocation = () => {
     const navigate = useNavigate()
@@ -32,7 +29,7 @@ const EditLocation = () => {
   const [singleLocation, setSingleLocation] = useState(singleLocationFetch?.location)
 
   // values to add
-  const [selectLocationValue, setSelectLocationValue] = useState(singleLocationFetch?.location?.name || "");
+  const [location, setLocation] = useState(singleLocationFetch?.location?.name || "");
   const [address, setAddress] = useState("")
   const [phone, setPhone] = useState("")
   const [landmark, setLandmark] = useState("")
@@ -41,7 +38,7 @@ const EditLocation = () => {
     const val = {
         cityId,
         locationId,
-        name: selectLocationValue,
+        name: location,
         address,
         phone,
         landmark
@@ -60,9 +57,8 @@ const EditLocation = () => {
 
   useEffect(()=> {
     if(singleLocationFetchSuccess){
-      setSelectLocationValue(singleLocationFetch?.location?.name)
         setSingleLocation(singleLocationFetch?.location || "")
-        setSelectLocationValue(singleLocationFetch?.location?.name || "")
+        setLocation(singleLocationFetch?.location?.name || "")
         setAddress(singleLocationFetch?.location?.address || "")
         setPhone(singleLocationFetch?.location?.phone || "")
         setLandmark(singleLocationFetch?.location?.landmark || "")
@@ -77,9 +73,7 @@ useEffect(()=> {
 
 if(singleCityFetchFetching || singleCityFetchLoading || singleLocationFetchFetching || singleLocationFetchLoading || deleteLocationLoading || editLocationLoading){
   return (
-    <div className="outer-cover loader-container">
       <Loader/>
-    </div>
   )
 }
   
@@ -87,7 +81,7 @@ if(singleCityFetchFetching || singleCityFetchLoading || singleLocationFetchFetch
   return (
     <div className="operating-city-container-outer outer-cover">
       <div className="operating-location-top m-y-m">
-        <Title>{city?.name} ({singleLocation?.name})</Title>
+        <Title backIcon={true}>{city?.name} ({singleLocation?.name})</Title>
       </div>
       <div className="separator"></div>
       <div className="operating-location-main">
@@ -103,12 +97,12 @@ if(singleCityFetchFetching || singleCityFetchLoading || singleLocationFetchFetch
 
           <div className="location-form-container">
             <div className="form-control">
-              <SelectComponent
+            <InputWithLabel
+                placeholder="Enter the location name"
                 label="Location"
                 labelTag="select among the known location"
-                selectValue={selectLocationValue}
-                setSelectValue={setSelectLocationValue}
-                options={options}
+                value={location}
+                onchange={(e)=> setLocation(e.target.value)}
               />
             </div>
             <div className="form-control">

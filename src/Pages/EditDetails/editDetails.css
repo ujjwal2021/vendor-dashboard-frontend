@@ -6,6 +6,11 @@
   max-width: 20rem;
   font-size: var(--font-h5);
 }
+.edit-detail-form .form-control.show-img img{
+  max-width: 20rem;
+  width: 100%;
+
+}
 .edit-detail-form .form-control .form-right {
   width: 50%;
   max-width: 35rem;

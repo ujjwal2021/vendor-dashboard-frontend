@@ -6,7 +6,8 @@ import {
   vendorDetailApi,
   busTypesApi,
   busApi,
-  tripApi
+  tripApi,
+  uploadApi
 } from "./services/api";
 
 export const store = configureStore({
@@ -17,6 +18,7 @@ export const store = configureStore({
     [busTypesApi.reducerPath]: busTypesApi.reducer,
     [busApi.reducerPath]: busApi.reducer,
     [tripApi.reducerPath]: tripApi.reducer,
+    [uploadApi.reducerPath]: uploadApi.reducer
   },
   middleware: (getDefaultMiddleWare) =>
     getDefaultMiddleWare()
@@ -26,5 +28,6 @@ export const store = configureStore({
       .concat(busTypesApi.middleware)
       .concat(busApi.middleware)
       .concat(tripApi.middleware)
+      .concat(uploadApi.middleware)
 });
 setupListeners(store.dispatch);

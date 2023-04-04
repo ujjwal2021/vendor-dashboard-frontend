@@ -7,11 +7,25 @@
     width: 50%;
     max-width: 25rem;
 }
+.bus-types-form-wrapper .row-wrapper.other-details-wrapper{
+    width: 100%;
+    max-width: 54rem;
+}
+.row-wrapper.other-details-wrapper .form-control{
+    max-width: 100%;
+
+    width: 100%;
+}
+
 .bus-types-form-wrapper .row-wrapper{
     gap: var(--space-xl);
 }
 .bus-types-seat-container{
     margin: var(--space-xl) 0;
+}
+.bus-type-button-container{
+    display: flex;
+    gap: 1rem  ;
 }
 @media screen and (max-width: 750px) {
     .bus-types-form-wrapper .row-wrapper{

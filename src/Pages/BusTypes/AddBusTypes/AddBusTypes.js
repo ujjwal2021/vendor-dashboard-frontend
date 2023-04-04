@@ -9,80 +9,90 @@ import { useGlobalContext } from "../../../context";
 import { useNavigate } from "react-router-dom";
 import { statusCodeToMsg } from "../../../utils";
 import Loader from "../../../components/UI/Loader/Loader";
+import MultiSelect from "../../../components/UI/MultiSelect/MultiSelect";
 
 const AddBusTypes = () => {
-  // all the datas required
-
-  const {setFrontendMessage} = useGlobalContext()
-  const navigate = useNavigate()
-
+  const { setFrontendMessage } = useGlobalContext();
+  const navigate = useNavigate();
   const [busTypeName, setBusTypeName] = useState("");
-  const [vehicleMake, setVehicleMake] = useState("");
-  const [seatingType, setSeatingType] = useState("");
+  const [vehicleMake, setVehicleMake] = useState({ option: "", value: "" });
+  const [seatingType, setSeatingType] = useState({ option: "", value: "" });
   // we have to create multiple select for this
   const [otherDetails, setOtherDetails] = useState([]);
-  const [ac, setAc] = useState("");
+  const [ac, setAc] = useState({ option: "False", value: false });
 
-  const [createBusType, {error: createBusTypeError, isSuccess: createBusTypeSuccess,isLoading: createBusTypeLoading}] = useCreateBusTypeMutation()
+  const [
+    createBusType,
+    {
+      error: createBusTypeError,
+      isSuccess: createBusTypeSuccess,
+      isLoading: createBusTypeLoading,
+    },
+  ] = useCreateBusTypeMutation();
 
-  const handleCreateBusType = async() => {
+  const handleCreateBusType = async () => {
     const val = {
       name: busTypeName,
-      vehicleMake,
-      seatingType,
-      features: ["Wifi"],
-      hasAC: ac==="True" ? true: false,
-      seats:  [
+      vehicleMake: vehicleMake.value,
+      seatingType: seatingType.value,
+      features: otherDetails,
+      hasAC: ac.value,
+      seats: [
         {
-          "seatName": "A1",
-          "row": 0,
-          "column": 0,
-          "seatType": "seater",
-          "length": 1,
-          "width": 1,
-          "index": "lower"
+          seatName: "A1",
+          row: 0,
+          column: 0,
+          seatType: "seater",
+          length: 1,
+          width: 1,
+          index: "lower",
         },
         {
-          "seatName": "S1",
-          "row": 0,
-          "column": 3,
-          "seatType": "sleeper",
-          "length": 2,
-          "width": 1,
-          "index": "lower"
-        }
-      ]
-    }
-    await createBusType(val)
-  }
+          seatName: "S1",
+          row: 0,
+          column: 3,
+          seatType: "sleeper",
+          length: 2,
+          width: 1,
+          index: "lower",
+        },
+      ],
+    };
+    await createBusType(val);
+  };
 
-  useEffect(()=> {
-    createBusTypeError && setFrontendMessage({status: "error", msg: statusCodeToMsg[createBusTypeError?.status]})
-  }, [createBusTypeError])
+  useEffect(() => {
+    createBusTypeError &&
+      setFrontendMessage({
+        status: "error",
+        msg: statusCodeToMsg[createBusTypeError?.status],
+      });
+  }, [createBusTypeError]);
 
-  useEffect(()=> {
-    createBusTypeSuccess && navigate("/busConfig")
-  }, [createBusTypeSuccess])
+  useEffect(() => {
+    createBusTypeSuccess && navigate("/busConfig");
+  }, [createBusTypeSuccess]);
 
-  if(createBusTypeLoading){
-    return (
-      <div className="outer-cover loader-container">
-      <Loader />
-    </div>
-    )
+  if (createBusTypeLoading) {
+    return <Loader />;
   }
   return (
     <div className="outer-cover">
       <div className="bus-types-top top-title">
-        <Title>Bus Types</Title>
+        <Title backIcon={true}>Bus Types</Title>
       </div>
       <div className="separator"></div>
       <div className="bus-types-main">
         <div className="bus-types-form-wrapper">
-          <div className="form-control">
-            <InputWithLabel placeholder="Enter name of the bus" label="Name" value={busTypeName} onchange={(e) => setBusTypeName(e.target.value)}/>
-          </div>
           <div className="row-wrapper">
+            <div className="form-control">
+              <InputWithLabel
+                placeholder="Enter name of the bus"
+                label="Name"
+                value={busTypeName}
+                onchange={(e) => setBusTypeName(e.target.value)}
+              />
+            </div>
             <div className="form-control">
               <SelectComponent
                 options={["Leyland"]}
@@ -91,6 +101,8 @@ const AddBusTypes = () => {
                 setSelectValue={setVehicleMake}
               />
             </div>
+          </div>
+          <div className="row-wrapper">
             <div className="form-control">
               <SelectComponent
                 options={["2+1", "2+2"]}
@@ -99,28 +111,39 @@ const AddBusTypes = () => {
                 setSelectValue={setSeatingType}
               />
             </div>
-          </div>
-          <div className="row-wrapper">
             <div className="form-control">
               <SelectComponent
-                options={["Charging", "Wifi"]}
-                label="Other Details"
-                selectValue={otherDetails}
-                setSelectValue={setOtherDetails}
-              />
-            </div>
-            <div className="form-control">
-              <SelectComponent
-                options={["True", "False"]}
+                options={[
+                  { option: "True", value: true },
+                  { option: "False", value: false },
+                ]}
                 label="AC"
                 selectValue={ac}
                 setSelectValue={setAc}
               />
             </div>
           </div>
+          <div className="row-wrapper other-details-wrapper">
+            <div className="form-control">
+              <MultiSelect
+                options={[
+                  { option: "Charging", value: "Charging" },
+                  { option: "Wifi", value: "Wifi" },
+                ]}
+                label="Other Details"
+                selectValue={otherDetails}
+                setSelectValue={setOtherDetails}
+              />
+            </div>
+          </div>
           <div className="bus-types-seat-container">seats</div>
           <div className="bus-type-button-container">
-            <Button onClick={handleCreateBusType} disabled={createBusTypeLoading ? true: false}>Add Bus Type</Button>
+            <Button
+              onClick={handleCreateBusType}
+              disabled={createBusTypeLoading ? true : false}
+            >
+              Add Bus Type
+            </Button>
           </div>
         </div>
       </div>

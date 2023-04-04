@@ -5,7 +5,7 @@ const AppContext = React.createContext();
 
 const AppProvider = ({ children }) => {
   
-  const serverUrl = "https://omartravels.the-binaries.xyz/api/v1";
+  const serverUrl = "https://omartravels.the-binaries.xyz";
 
   const [frontendMessage, setFrontendMessage] = useState({status: "", msg: ""})
   
