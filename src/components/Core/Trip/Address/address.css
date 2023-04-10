@@ -1,0 +1,30 @@
+.absolute-container.address-absolute-container{
+    width: fit-content !important;
+}
+.address-absolute-main{
+    padding: var(--space-m);
+}
+
+.address-absolute-row-wrapper{
+    display: flex;
+    gap: 2rem;
+    margin-top: var(--space-m);
+    align-items: center;
+}
+.address-absolute-row-wrapper .absolute-row-left{
+    min-width: 8rem;
+    width: 50%;
+    font-size: var(--font-h5);
+}
+.address-absolute-row-wrapper .absolute-row-right{
+    display: flex;
+    gap: 1rem;
+}
+.address-select-wrapper{
+    width: 5rem;
+}
+.address-btn-wrapper{
+ display: flex; 
+ gap: 0.5rem;
+ margin-top: var(--space-m); 
+}

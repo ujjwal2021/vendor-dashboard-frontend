@@ -73,12 +73,21 @@ const Sidebar = () => {
           <div className="">Bus Configuration</div>
         </div>
       </NavLink>
+      <NavLink
+        to="/trip/all"
+        className={({isActive })=> 
+        isActive? "sidebar-menu-active": "sidebar-menu-inactive"
+      }
+      onClick={handleClick}
+        >
+
       <div className="singlemenu-container p-y-m h5">
         <div className="singlemenu-icon">
           <FaCalendarMinus />
         </div>
         <div className="">Trip Schedule</div>
       </div>
+        </NavLink>
       <div className="singlemenu-container p-y-m h5">
         <div className="singlemenu-icon">
           <FaChartPie />

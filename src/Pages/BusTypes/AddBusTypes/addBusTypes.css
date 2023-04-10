@@ -27,6 +27,13 @@
     display: flex;
     gap: 1rem  ;
 }
+.bus-type-warning-text{
+    margin-bottom: var(--space-l);
+}
+.preview-seats-wrapper{
+    margin: var(--space-l) 0;
+}
+
 @media screen and (max-width: 750px) {
     .bus-types-form-wrapper .row-wrapper{
         flex-direction: column;

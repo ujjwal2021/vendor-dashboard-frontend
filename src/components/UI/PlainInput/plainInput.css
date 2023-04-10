@@ -1,6 +1,6 @@
 .plain-input-form-control{
     position: relative;
-    width: 100%;
+    width: auto;
 }
 .plain-input-form-control .plain-input-label{
     position: absolute;

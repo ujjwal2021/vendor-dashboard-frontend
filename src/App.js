@@ -13,6 +13,12 @@ import AddBusTypes from "./Pages/BusTypes/AddBusTypes/AddBusTypes";
 import EditBusTypes from "./Pages/BusTypes/EditBusTypes/EditBusTypes";
 import AddBus from "./Pages/Bus/AddBus/AddBus";
 import EditBus from "./Pages/Bus/EditBus/EditBus";
+import Trip from "./Pages/Trip/Trip";
+import AddTrip from "./Pages/Trip/AddTrip/AddTrip";
+import BasicTripConfig from "./Pages/Trip/AddTrip/BasicTripConfig/BasicTripConfig";
+import TripRoute from "./Pages/Trip/AddTrip/TripRoute/TripRoute";
+import TripFare from "./Pages/Trip/AddTrip/TripFare/TripFare"
+import OperatingDays from "./Pages/Trip/AddTrip/OperatingDays/OperatingDays";
 
 function App() {
   const navigate = useNavigate()
@@ -49,6 +55,13 @@ function App() {
               <Route path="busConfig/busTypes/:busTypeId/edit" element={<EditBusTypes/>}/>
               <Route path="busConfig/bus/add" element={<AddBus/>}/>
               <Route path="busConfig/bus/:busId/edit" element={<EditBus/>}/>
+              <Route path="trip/all" element={<Trip/>}/>
+              <Route path="trip/add" element={<AddTrip/>}>
+                <Route path="basicTripConfig" element={<BasicTripConfig/>}/>
+                <Route path="route" element={<TripRoute/>}/>
+                <Route path="fare" element={<TripFare/>}/>
+                <Route path="operatingDays" element={<OperatingDays/>}/>
+              </Route>
             </Route>
           </Routes>
         )

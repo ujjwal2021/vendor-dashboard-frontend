@@ -8,7 +8,7 @@ const SelectOption = ({setSelectValue, option, value, setIsActive, selectValue, 
     }
 
   return (
-    <div className={`select-option p-m ${(value === selectValue.value)&&"active"}`} onClick={handleClick}>{option}</div>
+    <div className={`select-option p-m ${(value === selectValue?.value)&&"active"}`} onClick={handleClick}>{option}</div>
   )
 }
 

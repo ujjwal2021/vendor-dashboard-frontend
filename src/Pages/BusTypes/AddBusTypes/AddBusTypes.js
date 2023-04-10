@@ -10,6 +10,7 @@ import { useNavigate } from "react-router-dom";
 import { statusCodeToMsg } from "../../../utils";
 import Loader from "../../../components/UI/Loader/Loader";
 import MultiSelect from "../../../components/UI/MultiSelect/MultiSelect";
+import Seat from "../../../components/Core/Seat/Seat";
 
 const AddBusTypes = () => {
   const { setFrontendMessage } = useGlobalContext();
@@ -20,6 +21,9 @@ const AddBusTypes = () => {
   // we have to create multiple select for this
   const [otherDetails, setOtherDetails] = useState([]);
   const [ac, setAc] = useState({ option: "False", value: false });
+  const [lowerSeats, setLowerSeats] = useState([])
+  const [upperSeats, setUpperSeats] = useState([])
+  const [seats, setSeats] = useState([...lowerSeats, ...upperSeats])
 
   const [
     createBusType,
@@ -37,30 +41,14 @@ const AddBusTypes = () => {
       seatingType: seatingType.value,
       features: otherDetails,
       hasAC: ac.value,
-      seats: [
-        {
-          seatName: "A1",
-          row: 0,
-          column: 0,
-          seatType: "seater",
-          length: 1,
-          width: 1,
-          index: "lower",
-        },
-        {
-          seatName: "S1",
-          row: 0,
-          column: 3,
-          seatType: "sleeper",
-          length: 2,
-          width: 1,
-          index: "lower",
-        },
-      ],
+      seats
     };
     await createBusType(val);
   };
 
+  useEffect(()=> {
+    setSeats([...lowerSeats, ...upperSeats])
+  }, [lowerSeats, upperSeats])
   useEffect(() => {
     createBusTypeError &&
       setFrontendMessage({
@@ -72,6 +60,7 @@ const AddBusTypes = () => {
   useEffect(() => {
     createBusTypeSuccess && navigate("/busConfig");
   }, [createBusTypeSuccess]);
+
 
   if (createBusTypeLoading) {
     return <Loader />;
@@ -136,7 +125,13 @@ const AddBusTypes = () => {
               />
             </div>
           </div>
-          <div className="bus-types-seat-container">seats</div>
+          <div className="bus-types-seat-container">
+            <Seat  seats={lowerSeats} setSeats={setLowerSeats} deck="lower"/>
+          </div>
+          <div className="bus-types-seat-container">
+            <Seat seats={upperSeats} setSeats={setUpperSeats} deck="upper"/>
+
+          </div>
           <div className="bus-type-button-container">
             <Button
               onClick={handleCreateBusType}

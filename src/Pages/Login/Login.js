@@ -82,7 +82,7 @@ const Login = () => {
               <div className="login-form-label h5 dark-500">Password</div>
               <PlainInput
                 type="password"
-                placeholder="Enter your username"
+                placeholder="Enter your password"
                 value={password}
                 onchange={(e) => setPassword(e.target.value)}
               />

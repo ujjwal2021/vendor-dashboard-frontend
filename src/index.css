@@ -62,6 +62,11 @@
   padding: 0;
   margin: 0;
   font-family: 'Roboto', sans-serif;
+  -ms-overflow-style: none;
+    scrollbar-width: none;
+}
+::-webkit-scrollbar {
+  display: none !important; 
 }
 body{
   background-color: var(--light-900);
@@ -416,6 +421,13 @@ a{
   font-size: var(--font-46);
 }
 
+.plain-input.mini{
+  width: 5rem;
+  text-align: center;
+}
+.plain-input.mini::placeholder{
+  text-align: center;
+}
 .plain-input.small{
   width: 12.5rem;
 }
@@ -431,7 +443,7 @@ a{
 /* main cover for pages with sidebar and navbar */
 .outer-cover{
   margin-left:20rem;
-  padding: 6rem var(--space-l);
+  padding: 6rem var(--space-l) var(--space-s) var(--space-l);
 }
 
 /* footer */
@@ -505,20 +517,33 @@ a{
   background-color: var(--light-300);
   margin-top: var(--space-s);
 }
+
 /* table */
 .table-outer{
   margin-top: var(--space-l);
   color: var(--dark-500);
+  overflow-x: scroll;
 }
 .table-outer .table-row{
   display: flex;
   align-items: center;
+  gap: var(--space-xs);
+  flex-wrap: nowrap;
 }
 .table-title-row{
   padding: var(--space-m);
+  background-color: var(--light-100);
+  width: 100%;
+  min-width: fit-content;
 }
+.table-title-row .table-title{
+  width: 100%;
+}
+
+
 .table-row .row-content{
-  width: 50%;
+  width: 100%;
+  min-width: 10rem;
   font-size: var(--font-h5);
 }
 .table-content-row{

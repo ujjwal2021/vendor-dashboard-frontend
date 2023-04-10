@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from "react";
-import { FaChevronDown, FaChevronUp } from "react-icons/fa";
 import "./select.css";
 import SelectOption from "./SelectOption";
 import PlainInput from "../PlainInput/PlainInput";
@@ -12,7 +11,7 @@ const SelectComponent = ({
   labelTag = "",
   options = [],
 }) => {
-  const [search, setSearch] = useState(selectValue.option || "");
+  const [search, setSearch] = useState(selectValue?.option || "");
   const [isActive, setIsActive] = useState(false);
   const [filteredOptions, setFilteredOptions] = useState(options);
 

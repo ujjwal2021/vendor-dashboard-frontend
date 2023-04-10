@@ -1,0 +1,55 @@
+.show-seats-wrapper{
+    max-width: 100%;
+    width: fit-content;
+    border: 1px solid var(--grey-100);
+    padding: var(--space-s);
+    border-radius: 0.25rem;
+    /* display: grid; */
+    grid-template-columns: repeat(15, 2rem);
+    /* grid-template-rows: repeat(6, 1fr); */
+    row-gap: 0.75rem;
+    column-gap: 0.75rem;
+
+}
+.show-single-seat{
+border: 1px solid var(--grey-100);
+display: flex;
+align-items: center;
+justify-content: center;
+position: relative;
+
+}
+.seater-seat{
+/* width: 3rem;
+height: 3rem; */
+width: 100%;
+height: 100%;
+}
+.seater-abs{
+    width: 80%;
+    position: absolute;
+    height: 0.25rem;
+    border: 1px solid var(--grey-100);
+    right: 0;
+
+}
+.top-seater-abs{
+    top: -0.25rem;
+}
+.bottom-seater-abs{
+    bottom: -0.25rem;
+}
+.sleeper-abs{
+    position: absolute;
+    border: 1px solid var(--grey-100);
+}
+.sleeper-seat.horizontal .sleeper-abs{
+    height: 80%;
+    width: 0.25rem;
+    right: 0.25rem;
+}
+.sleeper-seat.vertical .sleeper-abs{
+    top: 0.25rem;
+    width: 80%;
+    height: 0.25rem;
+}

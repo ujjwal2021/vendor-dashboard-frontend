@@ -11,6 +11,9 @@
   cursor: pointer;
   /* border: 1px solid var(--grey-100); */
 }
+.select-container div{
+  width: 100%;
+}
 .select-container svg {
   position: absolute;
   top: 50%;
